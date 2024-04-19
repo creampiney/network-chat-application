@@ -3,9 +3,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const ThemeContext = createContext<{theme: string, setTheme: React.Dispatch<React.SetStateAction<string>>}>({theme: "light", setTheme: () => {}});
 
 export const ThemeProvider = ({children} : {children : React.ReactNode}) => {
-    const [theme, setTheme] = useState<string>("light");
+    const [theme, setTheme] = useState<string>(localStorage.getItem('theme') || "dark");
 
     useEffect(() => {
+        localStorage.setItem('theme', theme)
         document.body.classList.remove('light', 'dark')
         document.body.classList.add(theme)
         console.log(theme)
