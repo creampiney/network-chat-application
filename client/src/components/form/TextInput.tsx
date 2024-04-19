@@ -20,12 +20,12 @@ function TextInput({type, fieldName, placeholder, name, register, error, valueAs
             <input 
                 type={type}
                 placeholder={placeholder}
-                className={"input input-bordered input-sm w-full max-w-xs bg-white " + (error && "border-red-700")}
+                className={"primary-input " + (error && "border-red-700")}
                 onChange={onChange? onChange() : null}
                 {...register(name, { valueAsNumber })}/>
             <div className="label">
             {
-                error && (<span className="label-text-alt text-red-700">{error.message}</span>)
+                error && (<span className="label-text-alt text-red-700 dark:text-red-400">{error.message}</span>)
             }
             </div>
             
