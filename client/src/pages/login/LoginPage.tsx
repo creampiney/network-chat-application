@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ThemeButton from "../../components/etc/ThemeButton"
+import { Link } from "react-router-dom"
 
 const LoginPage = () => {
 
@@ -34,7 +35,7 @@ const LoginPage = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}/>
               </div>
-              {/* <span>Don't have an account? <Link to="/register">Sign up</Link> now!</span> */}
+              <span>Don't have an account? <Link to="/register">Sign up</Link> now!</span>
               <button type="submit" className="primary-button">Sign In</button>
             </form>
           
