@@ -145,7 +145,7 @@ const RegisterPage = () => {
 
                 {
                     enableButton ? <button type="submit" className="primary-button">Register</button>
-                    : <button type="submit" className="disabled-button" disabled>Register</button>
+                    : <button className="disabled-button" disabled>Register</button>
                 }
                 
             </form>

@@ -9,13 +9,40 @@ const LoginPage = () => {
 
   const [isError, setError] = useState<boolean>(false)
 
+  async function onSubmit() {
+    setError(false)
+
+    try {
+      const result = await fetch(import.meta.env.VITE_BACKEND_URL + '/auth/login',{
+        method : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body : JSON.stringify({
+            username : username,
+            password : password
+        }),
+        credentials : 'include',
+      });
+      if (result.ok) {
+        window.location.href = "/chat"
+      }
+      else {
+        setError(true)
+      }
+
+    } catch (err) {
+      setError(true)
+    }
+  }
+
   return (
     <div className="full-page relative">
         <div className="w-80 flex flex-col item-center">
-            <form className="w-full flex flex-col items-center gap-3" onSubmit={(e) => {e.preventDefault()}}>
+            <form className="w-full flex flex-col items-center gap-3" onSubmit={(e) => {e.preventDefault(); onSubmit();}}>
               <h2>Sign In</h2>
               {
-                  isError && <div className="flex w-full justify-center text-red-700">Email or password is wrong!</div>
+                  isError && <div className="flex w-full justify-center text-red-700 dark:text-red-400">Email or password is wrong!</div>
               }
               <div className="w-full flex flex-col gap-2">
                   <label className="text-base">Username</label>
