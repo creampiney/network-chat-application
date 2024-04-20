@@ -24,7 +24,7 @@ const ChatPanel = ({ chatId }: { chatId: string }) => {
     setInvalid(false);
     try {
       const res = await fetch(
-        process.env.REACT_APP_BACKEND_URL + "/chats/" + chatId,
+        import.meta.env.VITE_BACKEND_URL + "/chats/" + chatId,
         {
           method: "GET",
           credentials: "include",
@@ -39,7 +39,7 @@ const ChatPanel = ({ chatId }: { chatId: string }) => {
         console.log(data);
 
         const readRes = await fetch(
-          process.env.REACT_APP_BACKEND_URL + "/chats/" + chatId + "/read",
+          import.meta.env.VITE_BACKEND_URL + "/chats/" + chatId + "/read",
           {
             method: "PUT",
             credentials: "include",

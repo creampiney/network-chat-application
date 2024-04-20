@@ -6,6 +6,7 @@ import RegisterPage from "./pages/register/RegisterPage";
 import ChatPage from "./pages/chat/ChatPage";
 import { UserProvider } from "./lib/contexts/UserContext";
 import Home from "./components/home/Home";
+import PrivateChatPage from "./pages/chat/privateChat/PrivateChatPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="rooms" />
                 <Route path="groups" />
               </Route>
+              <Route path="chat/:chatId" element={<PrivateChatPage />} />
             </Routes>
           </ThemeProvider>
         </UserProvider>

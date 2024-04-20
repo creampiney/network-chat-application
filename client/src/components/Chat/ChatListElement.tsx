@@ -24,7 +24,7 @@ const ChatListElement = ({
 
   return (
     <Link
-      to={"/chats/" + chat.id}
+      to={"/chat/" + chat.id}
       className="w-full h-16 flex flex-col items-center justify-center hover:bg-indigo-100 transition-colors text-xs text-black"
     >
       <div className="w-full px-5 flex gap-3">

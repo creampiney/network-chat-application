@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes";
+import chatRouter from "./routes/chat.routes";
+import userRouter from "./routes/user.routes";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { db } from "./lib/db";
@@ -26,6 +28,8 @@ app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/chats", chatRouter);
+app.use("/api/v1/users", userRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World");
@@ -91,9 +95,9 @@ io.on("connection", (socket) => {
           };
         }
 
-        const updateChat = await db.chat.update({
+        const updateChat = await db.privateChat.update({
           where: {
-            id: message.chatId,
+            id: message.chatPrivateId,
           },
           data: updateData,
         });
@@ -111,14 +115,14 @@ io.on("connection", (socket) => {
 
         if (!senderUser) return;
 
-        io.emit(`chats:${message.chatId}:addMessage`, message);
+        io.emit(`chats:${message.chatPrivateId}:addMessage`, message);
 
         io.emit(`users:${message.senderId}:chatsUpdate`);
         io.emit(`users:${sendTo}:chatsUpdate`);
 
         io.emit(`users:${sendTo}:notifications`, {
           type: "Chat",
-          context: message.chatId,
+          context: message.chatPrivateId,
           title: `Chat from ${senderUser.displayName} | HorHub`,
           message:
             message.type === "Text"

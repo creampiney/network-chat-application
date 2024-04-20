@@ -3,6 +3,7 @@ import { UserObject } from "../../pages/chat/ChatPage";
 import { Avatar } from "@mui/material";
 import { useUser } from "../../lib/contexts/UserContext";
 import { createChat } from "../../lib/chat";
+import LoadingPage from "../../pages/etc/LoadingPage";
 
 const Home = () => {
   const { userCount, userMap } = useOutletContext<{
@@ -18,8 +19,9 @@ const Home = () => {
     const chatId = await createChat(userId, currentUser.id);
     if (!chatId) return;
 
-    navigate("/chats/" + chatId);
+    navigate(chatId, { relative: "route" });
   }
+  if (!currentUser) <LoadingPage />;
 
   return (
     <div className="w-full py-5 px-6 page">
@@ -39,14 +41,16 @@ const Home = () => {
                   />
                   <p className="text-base-100">{user.displayName}</p>
                 </div>
-                <button
-                  className="primary-button"
-                  onClick={() => {
-                    handleCreateChat(user.userId);
-                  }}
-                >
-                  Chat with him/her
-                </button>
+                {currentUser?.id != user.userId && (
+                  <button
+                    className="primary-button"
+                    onClick={() => {
+                      handleCreateChat(user.userId);
+                    }}
+                  >
+                    Chat with him/her
+                  </button>
+                )}
               </li>
             );
           })}

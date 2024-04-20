@@ -19,24 +19,47 @@ model User {
   password    String
   displayName String
   avatar      String
-  chatId      String[] @db.ObjectId
-  myMessages  Message[] @relation("sendMessage")
-  chat        Chat[] @relation("chat",fields: [chatId],references: [id])
+  chatA       PrivateChat[]      @relation("joinChatAsParticipantA")
+  chatB       PrivateChat[]      @relation("joinChatAsParticipantB")
+  publicChatId    String[]  @db.ObjectId
+  publicChats PublicChat[] @relation(fields: [publicChatId], references: [id])
+  
+  myMessages  Message[]   @relation("sendMessage")
 }
 
-model Chat {
+
+
+model PrivateChat {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  participantId  String[]    @db.ObjectId
-  participant    User[]      @relation("chat",fields: [participantId], references: [id])
-  
-  messages        Message[] @relation("containMessages")
+  messages        Message[] @relation("containMessagesPrivate")
   lastUpdated     DateTime  @default(now())
+  participantA    User      @relation("joinChatAsParticipantA", fields: [participantAId], references: [id], onDelete: Cascade)
+  participantAId  String    @db.ObjectId
+  participantB    User      @relation("joinChatAsParticipantB", fields: [participantBId], references: [id], onDelete: Cascade)
+  participantBId  String    @db.ObjectId
+  participantAUnread    Int     @default(0)
+  participantBUnread    Int     @default(0)
+
+  
+}
+
+model PublicChat {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  messages        Message[] @relation("containMessagesPublic")
+  lastUpdated     DateTime  @default(now())
+  participant    User[]      @relation( fields: [participantId], references: [id]) //onCascade not support
+  participantId  String[]    @db.ObjectId
+  participantUnread    Int[]     @default([])
+  
 }
 
 model Message {
   id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  chat            Chat          @relation("containMessages", fields: [chatId], references: [id], onDelete: Cascade)
-  chatId          String        @db.ObjectId
+  chatPrivate            PrivateChat?          @relation("containMessagesPrivate",fields: [chatPrivateId], references: [id], onDelete: Cascade)
+  chatPrivateId          String        @db.ObjectId
+  chatPublic            PublicChat?          @relation("containMessagesPublic",fields: [chatPublicId], references: [id], onDelete: Cascade)
+  chatPublicId          String        @db.ObjectId
+
   sender          User          @relation("sendMessage", fields: [senderId], references: [id], onDelete: Cascade)
   senderId        String        @db.ObjectId
   type            MessageType
