@@ -24,15 +24,15 @@ const ChatListElement = ({
 
   return (
     <Link
-      to={"/chat/" + chat.id}
+      to={"/chat/private/" + chat.id}
       className="w-full h-16 flex flex-col items-center justify-center hover:bg-indigo-100 transition-colors text-xs text-black"
     >
       <div className="w-full px-5 flex gap-3">
         <Avatar
           src={
             currentUser.id === chat.participantA.id
-              ? chat.participantB.imageURL
-              : chat.participantA.imageURL
+              ? chat.participantB.avatar
+              : chat.participantA.avatar
           }
         />
         <div className="h-full grow overflow-clip flex flex-col gap-1 justify-center">

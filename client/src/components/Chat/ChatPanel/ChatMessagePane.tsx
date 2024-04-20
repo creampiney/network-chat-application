@@ -6,12 +6,12 @@ type ChatMessagePanelProps = {
   myUser: {
     id: string;
     displayName: string;
-    imageURL: string;
+    avatar: string;
   };
   anotherUser: {
     id: string;
     displayName: string;
-    imageURL: string;
+    avatar: string;
   };
   messages: Message[];
 };
@@ -57,7 +57,7 @@ const ChatMessagePane = ({
               <ChatMessage
                 key={idx}
                 side={myUser.id === message.senderId ? "right" : "left"}
-                anotherUserAvatar={anotherUser.imageURL}
+                anotherUserAvatar={anotherUser.avatar}
                 message={message}
               />
             </>

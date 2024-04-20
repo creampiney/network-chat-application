@@ -19,7 +19,7 @@ const Home = () => {
     const chatId = await createChat(userId, currentUser.id);
     if (!chatId) return;
 
-    navigate(chatId, { relative: "route" });
+    navigate("private/" + chatId, { relative: "route" });
   }
   if (!currentUser) <LoadingPage />;
 
