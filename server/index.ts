@@ -94,10 +94,13 @@ io.on("connection", (socket) => {
             },
           };
         }
+        if (!message.chatPrivateId) {
+          console.log("failed to send since this is not private chat");
+        }
 
         const updateChat = await db.privateChat.update({
           where: {
-            id: message.chatPrivateId,
+            id: message.chatPrivateId as string,
           },
           data: updateData,
         });

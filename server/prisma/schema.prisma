@@ -56,9 +56,9 @@ model PublicChat {
 model Message {
   id              String        @id @default(auto()) @map("_id") @db.ObjectId
   chatPrivate            PrivateChat?          @relation("containMessagesPrivate",fields: [chatPrivateId], references: [id], onDelete: Cascade)
-  chatPrivateId          String        @db.ObjectId
+  chatPrivateId          String?        @db.ObjectId
   chatPublic            PublicChat?          @relation("containMessagesPublic",fields: [chatPublicId], references: [id], onDelete: Cascade)
-  chatPublicId          String        @db.ObjectId
+  chatPublicId          String?        @db.ObjectId
 
   sender          User          @relation("sendMessage", fields: [senderId], references: [id], onDelete: Cascade)
   senderId        String        @db.ObjectId

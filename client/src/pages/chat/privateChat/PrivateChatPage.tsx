@@ -36,8 +36,6 @@ const PrivateChatPage = () => {
       // console.log(window.location.pathname)
       const pathList = window.location.pathname.split("/");
 
-      console.log(pathList);
-
       if (pathList.length < 3) {
         setChatRooms(data);
         return;
@@ -126,7 +124,7 @@ const PrivateChatPage = () => {
             setSearchName(e.target.value);
           }}
         />
-        <div className="w-full h-full overflow-y-auto">
+        <div className="w-full h-full overflow-y-auto bg-slate-200 dark:bg-slate-700">
           <div className="flex flex-col flex-nowarp">
             {chatRooms
               .filter((chat) => {
