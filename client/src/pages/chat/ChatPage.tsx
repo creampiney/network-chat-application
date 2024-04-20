@@ -2,9 +2,10 @@ import { Navigate } from "react-router-dom"
 import { useUser } from "../../lib/contexts/UserContext"
 import LoadingPage from "../etc/LoadingPage"
 import Sidebar from "../../components/sidebar/Sidebar"
+import Home from "../../components/home/Home"
 
 
-const ChatPage = () => {
+const ChatPage = ({current}: {current?: string}) => {
 
   const {currentUser, isLoading} = useUser()
 
@@ -15,9 +16,11 @@ const ChatPage = () => {
 
   return (
     <div className="full-page flex-row">
-      <Sidebar />
-      <div className="grow h-full bg-slate-400">
-
+      <Sidebar current={current} />
+      <div className="grow h-full overflow-y-auto">
+        {
+          (current === "home") && <Home />
+        }
       </div>
     </div>
   )
