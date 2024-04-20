@@ -48,7 +48,6 @@ const ChatPage = ({ current }: { current?: string }) => {
   }, [isLoading]);
 
   if (isLoading) return <LoadingPage />;
-  console.log(userMap);
   if (!currentUser) return <Navigate to="/" replace={true} />;
   return (
     <div className="full-page flex-row">
