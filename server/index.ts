@@ -6,7 +6,7 @@ import authRouter from "./routes/auth.routes";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { db } from "./lib/db";
-import { Message } from "@prisma/client";
+import { Message, User } from "@prisma/client";
 dotenv.config();
 
 const app: Express = express();
@@ -33,9 +33,30 @@ app.get("/", (req: Request, res: Response) => {
 
 let CountUser = 0;
 
-let userSocket = [];
+type UserObject = {
+  userId: string;
+  displayName: string;
+};
+
+let userSocket: Map<String, UserObject> = new Map();
 
 io.on("connection", (socket) => {
+  socket.on("join-global-chat", ({ userId, displayName }) => {
+    userSocket.set(socket.id, { userId: userId, displayName: displayName });
+    io.emit("global-chat", {
+      userMap: [...userSocket.values()],
+    });
+    console.log(`user in system is ${userSocket.size}`);
+  });
+
+  socket.on("disconnect", () => {
+    userSocket.delete(socket.id);
+    socket.broadcast.emit("global-chat", {
+      userMap: [...userSocket.values()],
+    });
+    console.log(`user in system is ${userSocket.size}`);
+  });
+
   socket.on(
     "chats:sendMessage",
     async (message: Message, senderSide: "A" | "B", sendTo: string) => {
