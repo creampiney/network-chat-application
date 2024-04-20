@@ -105,6 +105,7 @@ export const register = async (req: Request, res: Response) => {
 
 
     } catch (err) {
+        console.log(err)
         return res.status(400).send(generateStatusResponse(400, err))
     }
 }

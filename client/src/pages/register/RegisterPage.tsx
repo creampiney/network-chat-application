@@ -40,6 +40,8 @@ const RegisterPage = () => {
 
     const [avatar, setAvatar] = useState<ImageType>({dataURL: "https://firebasestorage.googleapis.com/v0/b/networkchatapplication.appspot.com/o/avatar%2Favatar2.png?alt=media&token=6c4120d7-47b7-4030-909f-a4da1904561b"})
 
+    const [isUsernameDuplicate, setUsernameDuplicate] = useState<boolean>(false)
+    const [enableButton, setEnableButton] = useState<boolean>(true)
 
     const { register, handleSubmit, formState: { errors } } = useForm<ValidationSchemaType>({
         resolver: zodResolver(schema),
@@ -47,6 +49,8 @@ const RegisterPage = () => {
     });
 
     const onSubmit: SubmitHandler<ValidationSchemaType> = async (data) => {
+        setEnableButton(false)
+        setUsernameDuplicate(false)
         const avatarURL = (await uploadImages([avatar], 'avatar'))[0]
 
         const requestData = {
@@ -56,7 +60,30 @@ const RegisterPage = () => {
             avatar: avatarURL
         }
 
-        alert(requestData)
+        try {
+            const result = await fetch(import.meta.env.VITE_BACKEND_URL + "/auth/register",{
+                method : "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body : JSON.stringify(requestData),
+                credentials : 'include',
+            });
+
+            if (result.ok) {
+                document.location.href = "/chat"
+            }
+            else {
+                setEnableButton(true)
+                setUsernameDuplicate(true)
+            }
+        } catch (err) {
+            console.log(err)
+            setEnableButton(true)
+            setUsernameDuplicate(true)
+        }
+
+        
     }
 
 
@@ -65,6 +92,13 @@ const RegisterPage = () => {
         <div className="w-80 flex flex-col item-center">
             <form className="w-full flex flex-col items-center gap-3" onSubmit = {handleSubmit(onSubmit)}>
                 <h2>Create Account</h2>
+                {
+                    isUsernameDuplicate && (
+                        <div className="label">
+                            <span className="label-text-alt text-red-700 dark:text-red-400">This username is already used</span>
+                        </div>
+                    )
+                }
 
                 <TextInput
                     type="text" 
@@ -74,7 +108,7 @@ const RegisterPage = () => {
                     register={register} 
                     error={errors.username} 
                 />
-
+                
                 <TextInput
                     type="password" 
                     name="password" 
@@ -109,8 +143,11 @@ const RegisterPage = () => {
                     defaultImageURL="https://firebasestorage.googleapis.com/v0/b/networkchatapplication.appspot.com/o/avatar%2Favatar2.png?alt=media&token=6c4120d7-47b7-4030-909f-a4da1904561b"
                 />
 
-              
-                <button type="submit" className="primary-button">Register</button>
+                {
+                    enableButton ? <button type="submit" className="primary-button">Register</button>
+                    : <button type="submit" className="disabled-button" disabled>Register</button>
+                }
+                
             </form>
           
         </div>
