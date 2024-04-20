@@ -12,6 +12,7 @@ import { DeepSet } from "../../lib/DeepSet";
 export type UserObject = {
   userId: string;
   displayName: string;
+  avatar: string;
 };
 
 type DataAccept = {
@@ -38,6 +39,7 @@ const ChatPage = ({ current }: { current?: string }) => {
     socket.emit("join-global-chat", {
       userId: currentUser.id,
       displayName: currentUser.displayName,
+      avatar: currentUser.avatar,
     });
 
     return function cleanup() {

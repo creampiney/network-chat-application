@@ -36,13 +36,18 @@ let CountUser = 0;
 type UserObject = {
   userId: string;
   displayName: string;
+  avatar: string;
 };
 
 let userSocket: Map<String, UserObject> = new Map();
 
 io.on("connection", (socket) => {
-  socket.on("join-global-chat", ({ userId, displayName }) => {
-    userSocket.set(socket.id, { userId: userId, displayName: displayName });
+  socket.on("join-global-chat", ({ userId, displayName, avatar }) => {
+    userSocket.set(socket.id, {
+      userId: userId,
+      displayName: displayName,
+      avatar: avatar,
+    });
     io.emit("global-chat", {
       userMap: [...userSocket.values()],
     });
