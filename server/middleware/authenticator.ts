@@ -7,7 +7,6 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   //const authHeader = req.headers['authorization']
   const { auth } = req.cookies;
   const token = auth;
-  console.log(token);
   if (token == null) return res.status(401).send(generateStatusResponse(401));
 
   jwt.verify(

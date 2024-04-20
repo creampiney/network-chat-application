@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useUser } from "../../lib/contexts/UserContext";
 import LoadingPage from "../etc/LoadingPage";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -17,7 +17,8 @@ const ChatPage = ({ current }: { current?: string }) => {
     <div className="full-page flex-row">
       <Sidebar current={current} />
       <div className="grow h-full overflow-y-auto">
-        {current === "home" && <Home />}
+        {/* {current === "home" && <Home />} */}
+        <Outlet />
       </div>
     </div>
   );
