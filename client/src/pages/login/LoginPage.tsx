@@ -1,6 +1,7 @@
 import { useState } from "react"
 import ThemeButton from "../../components/etc/ThemeButton"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
+import { useUser } from "../../lib/contexts/UserContext"
 
 const LoginPage = () => {
 
@@ -8,6 +9,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState<string>("")
 
   const [isError, setError] = useState<boolean>(false)
+
+  const {currentUser, isLoading} = useUser()
 
   async function onSubmit() {
     setError(false)
@@ -35,6 +38,10 @@ const LoginPage = () => {
       setError(true)
     }
   }
+
+  if (isLoading) return <div className="full-page"></div>
+
+  if (currentUser) return <Navigate to="/chat" replace={true} /> 
 
   return (
     <div className="full-page relative">
