@@ -19,5 +19,36 @@ model User {
   password    String
   displayName String
   avatar      String
+  chatId      String[] @db.ObjectId
+  myMessages  Message[] @relation("sendMessage")
+  chat        Chat[] @relation("chat",fields: [chatId],references: [id])
 }
 
+model Chat {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  participantId  String[]    @db.ObjectId
+  participant    User[]      @relation("chat",fields: [participantId], references: [id])
+  
+  messages        Message[] @relation("containMessages")
+  lastUpdated     DateTime  @default(now())
+}
+
+model Message {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  chat            Chat          @relation("containMessages", fields: [chatId], references: [id], onDelete: Cascade)
+  chatId          String        @db.ObjectId
+  sender          User          @relation("sendMessage", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId        String        @db.ObjectId
+  type            MessageType
+  text            String?
+  pictures        String[]
+  latitude        Float?
+  longitude       Float?    
+  sentAt          DateTime      @default(now())
+}
+
+enum MessageType {
+  Text
+  Images
+  Location
+}

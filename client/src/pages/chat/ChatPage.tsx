@@ -4,10 +4,29 @@ import LoadingPage from "../etc/LoadingPage";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Home from "../../components/home/Home";
 import useAuthRedirect from "../../lib/authRedirect";
+import { socket } from "../../lib/socket";
+import { useEffect } from "react";
 
 const ChatPage = ({ current }: { current?: string }) => {
   const { currentUser, isLoading } = useUser();
+
   useAuthRedirect();
+
+  useEffect(() => {
+    if (!currentUser) return;
+
+    socket.on("global-chat", (message) => {
+      console.log(message);
+    });
+
+    socket.emit("join-global-chat");
+
+    return function cleanup() {
+      socket.off("global-chat", () => {
+        console.log("disconnected");
+      });
+    };
+  }, [isLoading]);
 
   if (isLoading) return <LoadingPage />;
 

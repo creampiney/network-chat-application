@@ -58,7 +58,6 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const logout = async (req: Request, res: Response) => {
-  console.log(req);
   return res.status(200).clearCookie("auth").send("logout");
 };
 
