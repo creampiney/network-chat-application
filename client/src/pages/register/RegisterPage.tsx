@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageType } from "react-images-uploading";
 import TextInput from "../../components/form/TextInput";
 import ImageInput from "../../components/form/ImageInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uploadImages } from "../../lib/firebase";
 
 const schema = z
@@ -88,6 +88,10 @@ const RegisterPage = () => {
       setUsernameDuplicate(true);
     }
   };
+
+  useEffect(() => {
+    window.document.title = "Create Account"
+  }, [])
 
   return (
     <div className="full-page relative">
