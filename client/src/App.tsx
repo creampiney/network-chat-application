@@ -32,6 +32,7 @@ function App() {
                 <Route path="private/:chatId" element={<PrivateChatPage />} />
 
                 <Route path="groups" element={<PublicChatPage />} />
+                <Route path="groups/:groupId" element={<PublicChatPage />} />
               </Route>
             </Routes>
           </ThemeProvider>

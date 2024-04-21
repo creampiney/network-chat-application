@@ -36,14 +36,14 @@ const PrivateChatPage = () => {
       // console.log(window.location.pathname)
       const pathList = window.location.pathname.split("/");
 
-      if (pathList.length < 3) {
+      if (pathList.length < 4) {
         setChatRooms(data);
         return;
       }
       // console.log(pathList[2])
       // const currentRoom: Chat | undefined = data.find((chat) => chat.id === chatId)
       const currentRoomIdx: number = data.findIndex(
-        (chat) => chat.id === pathList[2]
+        (chat) => chat.id === pathList[3]
       ); // use chatId from location instead because chatId from params is not state, it will not work
 
       if (currentRoomIdx !== -1) {
