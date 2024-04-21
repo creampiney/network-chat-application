@@ -25,9 +25,9 @@ const ChatListElement = ({
   return (
     <Link
       to={"/chat/private/" + chat.id}
-      className="w-full h-16 flex flex-col items-center justify-center hover:bg-indigo-100 transition-colors text-xs text-black"
+      className="w-full h-16 flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-xs text-black"
     >
-      <div className="w-full px-5 flex gap-3">
+      <div className="w-full px-5 flex gap-3 secondary-text">
         <Avatar
           src={
             currentUser.id === chat.participantA.id
@@ -66,7 +66,7 @@ const ChatListElement = ({
         </div>
         <div className="flex flex-col items-end">
           {chat.latestMessage && (
-            <div className="text-slate-600 text-xs">
+            <div className="secondary-text text-xs">
               {new Date(chat.latestMessage.sentAt).toDateString() ===
               new Date().toDateString()
                 ? new Date(chat.latestMessage.sentAt).toLocaleTimeString(

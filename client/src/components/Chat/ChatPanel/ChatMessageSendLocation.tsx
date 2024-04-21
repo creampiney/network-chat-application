@@ -37,7 +37,7 @@ const ChatMessageSendLocation = ({
   return (
     <>
       <button onClick={() => setOpen(true)}>
-        <FaLocationDot className="text-xl fond-bold text-indigo-600" />
+        <FaLocationDot className="text-xl fond-bold text-indigo-600 dark:text-indigo-300" />
       </button>
       <Drawer anchor="bottom" open={open} onClose={() => setOpen(false)}>
         <div className="px-5 py-5 h-96 relative">

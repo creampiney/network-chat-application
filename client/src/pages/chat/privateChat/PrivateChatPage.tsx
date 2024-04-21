@@ -117,7 +117,7 @@ const PrivateChatPage = () => {
 
   return (
     <div className="w-full h-full flex">
-      <div className="h-full w-1/4 flex flex-col border-r border-slate-300">
+      <div className="h-full w-1/4 flex flex-col border-r border-slate-300 dark:border-slate-600">
         <ChatSearchBox
           value={searchName}
           onChange={(e) => {

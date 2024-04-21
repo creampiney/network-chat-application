@@ -23,7 +23,7 @@ const ChatMessage = ({
             <img src={anotherUserAvatar} />
           </div>
         </div>
-        <div className="text-slate-600 text-xs">
+        <div className="secondary-text text-xs">
           {new Date(message.sentAt).toLocaleTimeString("en-US", {
             hour: "2-digit",
             minute: "2-digit",
@@ -46,7 +46,7 @@ const ChatMessage = ({
   } else {
     return (
       <div className="chat chat-end flex flex-col">
-        <div className="text-slate-600 text-xs">
+        <div className="secondary-text text-xs">
           {new Date(message.sentAt).toLocaleTimeString("en-US", {
             hour: "2-digit",
             minute: "2-digit",
