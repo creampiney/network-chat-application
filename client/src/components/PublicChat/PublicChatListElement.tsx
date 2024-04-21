@@ -23,7 +23,7 @@ const PublicChatListElement = ({
 
   return (
     <Link
-      to={"/chat/private/" + chat.id}
+      to={"/chat/groups/" + chat.id}
       className={
         "w-full h-16 flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-xs text-black " +
         (newChat ? "bg-orange-400" : "")

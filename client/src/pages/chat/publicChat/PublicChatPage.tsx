@@ -9,17 +9,21 @@ import { Chat, PublicChat } from "../../../lib/types/Chat";
 import { useParams } from "react-router-dom";
 import { socket } from "../../../lib/socket";
 import PublicChatListElement from "../../../components/PublicChat/PublicChatListElement";
+import { IoMdAddCircle } from "react-icons/io";
+import PublicAddRoomModal from "../../../components/PublicChat/PublicAddRoomModal";
 
-const PublicChatPage = () => {
+export default function PublicChatPage() {
   let { chatId } = useParams();
 
   // const location = useLocation()
 
-  const { currentUser, isLoading } = useUser();
+  const { currentUser, isLoading, fetchUser } = useUser();
 
   const [searchName, setSearchName] = useState<string>("");
 
   const [chatRooms, setChatRooms] = useState<PublicChat[]>([]);
+
+  const [open, setOpen] = useState<boolean>(false);
 
   async function initChatRooms() {
     if (!currentUser) return;
@@ -51,11 +55,13 @@ const PublicChatPage = () => {
     });
     socket.on("public-chat:message", (mesg) => {
       console.log(mesg);
+      fetchUser();
       initChatRooms();
       console.log("someone send you a message");
     });
 
     socket.on("updateData:public", () => {
+      fetchUser();
       initChatRooms();
     });
 
@@ -98,6 +104,26 @@ const PublicChatPage = () => {
                   />
                 );
               })}
+            <button
+              className="w-full flex p-4 secondary-text items-center flex-col bg-sky-400"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <div className="h-full grow overflow-clip flex items-center gap-1 justify-center">
+                <IoMdAddCircle className="w-8 h-8 text-black" />
+                <div className="font-bold text-sm truncate">Add New Room</div>
+              </div>
+              <div className="flex flex-col items-end"></div>
+            </button>
+            <PublicAddRoomModal
+              open={open}
+              handleClose={() => {
+                setOpen(false);
+              }}
+              title={"Add Group"}
+              description={""}
+            />
           </div>
         </div>
       </div>
@@ -106,6 +132,4 @@ const PublicChatPage = () => {
       </div>
     </div>
   );
-};
-
-export default PublicChatPage;
+}

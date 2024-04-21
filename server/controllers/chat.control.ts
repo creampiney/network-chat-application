@@ -124,7 +124,6 @@ export const getPublicChatById = async (req: Request, res: Response) => {
 //@access   Public
 
 const createPublicRoomBodySchema = z.object({
-  participantId: z.string(),
   chatName: z.string(),
   chatAvatar: z.string().url(),
 });
@@ -137,16 +136,10 @@ export const createPublicChat = async (req: Request, res: Response) => {
 
   try {
     // Check if participant Id is valid or not
-    if (
-      parsedBody.participantId.length != 24 ||
-      /[0-9A-Fa-f]{24}/g.test(parsedBody.participantId) === false
-    ) {
-      return res.status(404).send("Participant not found");
-    }
 
     const chatRes = await db.publicChat.create({
       data: {
-        participantsId: [parsedBody.participantId],
+        participantsId: [user.id],
         chatName: parsedBody.chatName,
         chatAvatar: parsedBody.chatAvatar,
       },
