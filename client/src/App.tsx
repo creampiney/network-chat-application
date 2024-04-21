@@ -7,6 +7,8 @@ import ChatPage from "./pages/chat/ChatPage";
 import { UserProvider } from "./lib/contexts/UserContext";
 import Home from "./components/home/Home";
 import PrivateChatPage from "./pages/chat/privateChat/PrivateChatPage";
+import PublicChatListElement from "./components/PublicChat/PublicChatListElement";
+import PublicChatPage from "./pages/chat/publicChat/PublicChatPage";
 
 function App() {
   return (
@@ -21,12 +23,15 @@ function App() {
               <Route path="/chat/rooms" element={<ChatPage current="rooms" />} />
               <Route path="/chat/groups" element={<ChatPage current="groups" />} /> */}
               <Route path="chat" element={<ChatPage />}>
-                <Route path="" element={<Navigate to="/chat/home" replace={true} />} />
+                <Route
+                  path=""
+                  element={<Navigate to="/chat/home" replace={true} />}
+                />
                 <Route path="home" element={<Home />} />
                 <Route path="private" element={<PrivateChatPage />} />
                 <Route path="private/:chatId" element={<PrivateChatPage />} />
-            
-                <Route path="groups" />
+
+                <Route path="groups" element={<PublicChatPage />} />
               </Route>
             </Routes>
           </ThemeProvider>

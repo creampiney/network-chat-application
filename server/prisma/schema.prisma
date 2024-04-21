@@ -45,8 +45,8 @@ model PrivateChat {
 
 model PublicChat {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  chatName        String
-  chatAvatar      String
+  chatName        String    @default("Tmp Name")
+  chatAvatar      String    @default("https://firebasestorage.googleapis.com/v0/b/networkchatapplication.appspot.com/o/avatar%2Favatar2.png?alt=media&token=6c4120d7-47b7-4030-909f-a4da1904561b")
   messages        Message[] @relation("containMessagesPublic")
   lastUpdated     DateTime  @default(now())
   participants    User[]      @relation( fields: [participantsId], references: [id]) //onCascade not support

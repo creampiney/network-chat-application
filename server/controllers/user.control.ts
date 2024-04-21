@@ -112,3 +112,8 @@ export const updateUser = async (req: Request, res: Response) => {
     return res.send(403).send("Forbidden");
   }
 };
+
+export const getUser = async (req: Request, res: Response) => {
+  const { user } = req.body;
+  return user;
+};

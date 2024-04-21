@@ -130,7 +130,7 @@ const createPublicRoomBodySchema = z.object({
 });
 
 export const createPublicChat = async (req: Request, res: Response) => {
-  const body = req.body;
+  const { user, ...body } = req.body;
   const parseStatus = createPublicRoomBodySchema.safeParse(body);
   if (!parseStatus.success) return res.status(400).send("Invalid Data");
   const parsedBody = parseStatus.data;
@@ -143,6 +143,7 @@ export const createPublicChat = async (req: Request, res: Response) => {
     ) {
       return res.status(404).send("Participant not found");
     }
+
     const chatRes = await db.publicChat.create({
       data: {
         participantsId: [parsedBody.participantId],
@@ -151,6 +152,15 @@ export const createPublicChat = async (req: Request, res: Response) => {
       },
     });
 
+    const userRes = await db.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        publicChatId: { push: chatRes.id },
+      },
+    });
+    io.emit("updateData:public");
     return res.send(chatRes);
   } catch (err) {
     return res.status(400).send(err);
@@ -162,60 +172,6 @@ export const createPublicChat = async (req: Request, res: Response) => {
 //@access   Private
 
 export const createChat = async (req: Request, res: Response) => {
-  const body = req.body;
-  const { id } = req.params;
-  const parseStatus = createPublicRoomBodySchema.safeParse(body);
-  if (!parseStatus.success) return res.status(400).send("Invalid Data");
-
-  const parsedBody = parseStatus.data;
-
-  try {
-    // Check if participant Id is valid or not
-    if (
-      parsedBody.participantId.length != 24 ||
-      /[0-9A-Fa-f]{24}/g.test(parsedBody.participantId) === false
-    ) {
-      return res.status(404).send("Participant A not found");
-    }
-
-    // If there is room already, send that room
-    const findOldChatRoom = await db.publicChat.findUnique({
-      where: { id: id },
-    });
-    if (!findOldChatRoom) {
-      return res.status(404).send("Cannot Join : Not found chat room");
-    }
-
-    if (findOldChatRoom.participantsId.includes(parsedBody.participantId)) {
-      return res.send(findOldChatRoom);
-    }
-
-    const chatRes = await db.publicChat.update({
-      where: {
-        id: id,
-      },
-      data: {
-        participantsId: [
-          ...findOldChatRoom.participantsId,
-          parsedBody.participantId,
-        ],
-      },
-    });
-    /*
-    io.emit(`users:${parsedBody.participantAId}:chatsUpdate`);
-    io.emit(`users:${parsedBody.participantBId}:chatsUpdate`);
-    */
-    return res.send(chatRes);
-  } catch (err) {
-    return res.status(400).send(err);
-  }
-};
-
-//@desc     Join a Public chat
-//@route    GET chats/
-//@access   Private
-
-export const joinChat = async (req: Request, res: Response) => {
   const body = req.body;
 
   const parseStatus = createRoomBodySchema.safeParse(body);
@@ -275,6 +231,55 @@ export const joinChat = async (req: Request, res: Response) => {
     io.emit(`users:${parsedBody.participantAId}:chatsUpdate`);
     io.emit(`users:${parsedBody.participantBId}:chatsUpdate`);
 
+    return res.send(chatRes);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+//@desc     Join a Public chat
+//@route    GET chats/public/id/join
+//@access   Public
+
+export const joinChat = async (req: Request, res: Response) => {
+  const { user } = req.body;
+  const { id } = req.params;
+
+  try {
+    // Check if participant Id is valid or not
+
+    // If there is room already, send that room
+    const findOldChatRoom = await db.publicChat.findUnique({
+      where: { id: id },
+    });
+    if (!findOldChatRoom) {
+      return res.status(404).send("Cannot Join : Not found chat room");
+    }
+
+    if (findOldChatRoom.participantsId.includes(user.id)) {
+      io.to(id).emit("public-chat:message", "why join same room?");
+      return res.send(findOldChatRoom);
+    }
+
+    const chatRes = await db.publicChat.update({
+      where: {
+        id: id,
+      },
+      data: {
+        participantsId: [...findOldChatRoom.participantsId, user.id],
+      },
+    });
+
+    const userRes = await db.user.update({
+      where: { id: user.id },
+      data: { publicChatId: { push: id } },
+    });
+
+    io.to(id).emit("public-chat:message", "some one join your room ");
+    /*
+    io.emit(`users:${parsedBody.participantAId}:chatsUpdate`);
+    io.emit(`users:${parsedBody.participantBId}:chatsUpdate`);
+    */
     return res.send(chatRes);
   } catch (err) {
     return res.status(400).send(err);

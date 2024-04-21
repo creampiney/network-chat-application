@@ -46,6 +46,16 @@ type UserObject = {
 export let userSocket: Map<string, UserObject> = new Map();
 
 io.on("connection", (socket) => {
+  socket.on("public-chat:subscribe", ({ publicChatId }) => {
+    socket.join(publicChatId);
+    console.log(`user join public-chat`);
+  });
+
+  socket.on("public-chat:unsubscribe", ({ publicChatId }) => {
+    socket.join(publicChatId);
+    console.log(`user is left the public-chat`);
+  });
+
   socket.on("join-global-chat", ({ userId, displayName, avatar }) => {
     userSocket.set(socket.id, {
       userId: userId,
@@ -129,6 +139,7 @@ io.on("connection", (socket) => {
 
         if (message.chatPrivateId) {
           io.emit(`chats:${message.chatPrivateId}:addMessage`, message);
+
           io.emit(`users:${message.senderId}:chatsUpdate`);
           io.emit(`users:${sendTo}:chatsUpdate`);
 

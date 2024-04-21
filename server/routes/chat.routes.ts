@@ -12,7 +12,10 @@ import {
   updateChat,
   createPublicChat,
   getPublicChatById,
+  joinChat,
 } from "../controllers/chat.control";
+
+router.get("/public/:id/join", authenticate, joinChat);
 
 router.get("/public/:id", authenticate, getPublicChatById);
 

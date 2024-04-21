@@ -16,8 +16,10 @@ export type Chat = {
   latestMessage?: Message;
 };
 
-export type ChatPublic = {
+export type PublicChat = {
   id: string;
+  chatName: string;
+  chatAvatar: string;
   participants: {
     id: string;
     displayName: string;
