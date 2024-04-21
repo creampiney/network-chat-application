@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import ChatMessage from "./ChatMessage/ChatMessage";
-import { Message } from "../../../lib/type/Chat";
+import { Message } from "../../../lib/types/Chat";
 
 type ChatMessagePanelProps = {
   myUser: {
     id: string;
     displayName: string;
-    imageURL: string;
+    avatar: string;
   };
   anotherUser: {
     id: string;
     displayName: string;
-    imageURL: string;
+    avatar: string;
   };
   messages: Message[];
 };
@@ -57,7 +57,7 @@ const ChatMessagePane = ({
               <ChatMessage
                 key={idx}
                 side={myUser.id === message.senderId ? "right" : "left"}
-                anotherUserAvatar={anotherUser.imageURL}
+                anotherUserAvatar={anotherUser.avatar}
                 message={message}
               />
             </>

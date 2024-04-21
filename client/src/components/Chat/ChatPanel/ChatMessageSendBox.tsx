@@ -35,7 +35,7 @@ const ChatMessageSendBox = ({
       `chats:sendMessage`,
       {
         senderId: currentUser.id,
-        chatId: chatId,
+        chatPrivateId: chatId,
         type: "Text",
         text: text,
         sentAt: new Date(),
@@ -56,7 +56,7 @@ const ChatMessageSendBox = ({
       `chats:sendMessage`,
       {
         senderId: currentUser.id,
-        chatId: chatId,
+        chatPrivateId: chatId,
         type: "Images",
         pictures: imagesURL,
         sentAt: new Date(),
@@ -75,7 +75,7 @@ const ChatMessageSendBox = ({
       `chats:sendMessage`,
       {
         senderId: currentUser.id,
-        chatId: chatId,
+        chatPrivateId: chatId,
         type: "Location",
         latitude: latitude,
         longitude: longitude,

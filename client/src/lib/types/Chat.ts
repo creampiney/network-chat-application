@@ -3,12 +3,12 @@ export type Chat = {
   participantA: {
     id: string;
     displayName: string;
-    imageURL: string;
+    avatar: string;
   };
   participantB: {
     id: string;
     displayName: string;
-    imageURL: string;
+    avatar: string;
   };
   participantAUnread: number;
   participantBUnread: number;

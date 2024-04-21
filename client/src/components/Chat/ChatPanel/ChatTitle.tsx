@@ -25,8 +25,8 @@ const ChatTitle = ({ chat }: { chat: Chat | undefined }) => {
           sx={{ width: 36, height: 36 }}
           src={
             currentUser.id === chat.participantA.id
-              ? chat.participantB.imageURL
-              : chat.participantA.imageURL
+              ? chat.participantB.avatar
+              : chat.participantA.avatar
           }
         />
         <div className="font-bold text-sm">
