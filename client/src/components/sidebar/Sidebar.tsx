@@ -20,8 +20,8 @@ const Sidebar = ({ current }: { current?: string }) => {
     },
     {
       icon: <LuMessagesSquare />,
-      path: "/chat/rooms",
-      name: "rooms",
+      path: "/chat/private",
+      name: "private",
     },
     {
       icon: <GrGroup />,

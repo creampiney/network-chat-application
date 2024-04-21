@@ -21,9 +21,10 @@ function App() {
               <Route path="/chat/rooms" element={<ChatPage current="rooms" />} />
               <Route path="/chat/groups" element={<ChatPage current="groups" />} /> */}
               <Route path="chat" element={<ChatPage />}>
-                <Route path="private/:chatId" element={<PrivateChatPage />} />
                 <Route path="" element={<Home />} />
-                <Route path="rooms" />
+                <Route path="private" element={<PrivateChatPage />} />
+                <Route path="private/:chatId" element={<PrivateChatPage />} />
+            
                 <Route path="groups" />
               </Route>
             </Routes>
