@@ -107,8 +107,13 @@ const PrivateChatPage = () => {
       initChatRooms();
     });
 
+    socket.on("updateData", () => {
+      initChatRooms();
+    });
+
     return function cleanup() {
       socket.off(`users:${currentUser.id}:chatsUpdate`);
+      socket.off("updateData");
     };
   }, [isLoading]);
 

@@ -76,9 +76,12 @@ const ChatPanel = ({ chatId }: { chatId: string }) => {
 
   useEffect(() => {
     socket.on(`chats:${chatId}:addMessage`, (message) => addMessage(message));
-
+    socket.on("updateData", () => {
+      initRoom();
+    });
     return function cleanup() {
       socket.off(`chats:${chatId}:addMessage`);
+      socket.off("updateData");
     };
   }, [messages, chatId]);
 

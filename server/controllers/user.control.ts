@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../lib/db";
 import { z } from "zod";
+import { io, userSocket } from "..";
 //=========================================================
 
 //@desc     Get All Chats
@@ -86,6 +87,7 @@ export const updateUser = async (req: Request, res: Response) => {
         where: { id: user.id },
         data: true_data,
       });
+      io.sockets.to([...userSocket.keys()]).emit("updateData");
       console.log(result);
       return res.send("Success");
     } else {

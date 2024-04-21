@@ -43,7 +43,7 @@ type UserObject = {
   avatar: string;
 };
 
-let userSocket: Map<String, UserObject> = new Map();
+export let userSocket: Map<string, UserObject> = new Map();
 
 io.on("connection", (socket) => {
   socket.on("join-global-chat", ({ userId, displayName, avatar }) => {
@@ -59,8 +59,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("leave-global-chat", () => {
-    userSocket.delete(socket.id)
-    
+    userSocket.delete(socket.id);
+
     io.emit("global-chat", {
       userMap: [...userSocket.values()],
     });
