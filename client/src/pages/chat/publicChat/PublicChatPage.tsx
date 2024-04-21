@@ -13,7 +13,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import PublicAddRoomModal from "../../../components/PublicChat/PublicAddRoomModal";
 
 export default function PublicChatPage() {
-  let { chatId } = useParams();
+  let { groupId } = useParams();
 
   // const location = useLocation()
 
@@ -50,7 +50,7 @@ export default function PublicChatPage() {
   useEffect(() => {
     if (!currentUser) return;
     initChatRooms();
-    socket.emit("public-chat:subscribe", {
+    socket.emit("global-public-chat:subscribe", {
       publicChatId: currentUser.publicChatId,
     });
     socket.on("public-chat:message", (mesg) => {
@@ -68,7 +68,7 @@ export default function PublicChatPage() {
     return function cleanup() {
       socket.off(`public-chat:message`);
       socket.off("updateData");
-      socket.emit("public-chat:unsubscribe", {
+      socket.emit("global-public-chat:unsubscribe", {
         publicChatId: currentUser.publicChatId,
       });
     };
