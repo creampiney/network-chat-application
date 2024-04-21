@@ -28,7 +28,7 @@ const ChatMessageSendImages = ({
   return (
     <>
       <button onClick={() => setOpen(true)}>
-        <FaImage className="text-xl fond-bold text-indigo-600" />
+        <FaImage className="text-xl fond-bold text-indigo-600 dark:text-indigo-300" />
       </button>
       <Drawer anchor="bottom" open={open} onClose={() => setOpen(false)}>
         <div className="px-5 py-5 relative">

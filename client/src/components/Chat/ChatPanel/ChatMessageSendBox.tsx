@@ -87,7 +87,7 @@ const ChatMessageSendBox = ({
   }
 
   return (
-    <div className="w-full h-16 flex items-center bg-indigo-100 gap-4 px-5">
+    <div className="w-full h-16 flex items-center bg-slate-200 dark:bg-slate-700 gap-4 px-5">
       {/* <button><FaLocationDot className="text-xl fond-bold text-indigo-600" /></button> */}
       {/* <button><FaImage className="text-xl fond-bold text-indigo-600" /></button> */}
       <ChatMessageSendLocation
@@ -105,13 +105,13 @@ const ChatMessageSendBox = ({
       <form className="flex items-center w-full gap-4" onSubmit={submitText}>
         <input
           type="text"
-          className="block w-full p-2 ps-5 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+          className="block rounded-full p-2 ps-5 text-sm bg-slate-50 border border-gray-300 text-gray-900 w-full dark:bg-slate-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
           placeholder="Aa"
           value={text}
           onChange={(e) => setText(e.target.value.substring(0, 512))}
         />
         <button type="submit">
-          <IoIosSend className="text-xl fond-bold text-indigo-600" />
+          <IoIosSend className="text-xl fond-bold text-indigo-600 dark:text-indigo-300" />
         </button>
       </form>
     </div>

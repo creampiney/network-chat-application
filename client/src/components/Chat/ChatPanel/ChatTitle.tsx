@@ -1,5 +1,4 @@
 import { Avatar } from "@mui/material";
-import React from "react";
 import { Chat } from "../../../lib/types/Chat";
 import { useUser } from "../../../lib/contexts/UserContext";
 import ChatToggleNotificationButton from "./ChatToggleNotificationButton";
@@ -9,7 +8,7 @@ const ChatTitle = ({ chat }: { chat: Chat | undefined }) => {
 
   if (!chat || !currentUser) {
     return (
-      <div className="w-full h-14 flex px-5 items-center bg-indigo-100">
+      <div className="w-full h-14 flex px-5 items-center bg-slate-200 dark:bg-slate-700">
         <div className="flex items-center gap-2">
           <Avatar sx={{ width: 36, height: 36 }} />
           <div className="font-bold text-sm"></div>
@@ -19,7 +18,7 @@ const ChatTitle = ({ chat }: { chat: Chat | undefined }) => {
   }
 
   return (
-    <div className="w-full h-14 flex px-5 items-center bg-indigo-100">
+    <div className="w-full h-14 flex px-5 items-center bg-slate-200 dark:bg-slate-700">
       <div className="flex items-center w-full gap-2">
         <Avatar
           sx={{ width: 36, height: 36 }}
@@ -29,14 +28,14 @@ const ChatTitle = ({ chat }: { chat: Chat | undefined }) => {
               : chat.participantA.avatar
           }
         />
-        <div className="font-bold text-sm">
+        <div className="font-bold text-sm secondary-text">
           {currentUser.id === chat.participantA.id
             ? chat.participantB.displayName
             : chat.participantA.displayName}
         </div>
-        <div className="grow flex justify-end">
+        {/* <div className="grow flex justify-end">
           <ChatToggleNotificationButton chatId={chat.id} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
