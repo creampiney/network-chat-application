@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { db } from "../lib/db";
+import { z } from "zod";
 //=========================================================
 
 //@desc     Get All Chats
 //@route    GET /users/:id/chats
 //@access   Private
-
 export const getChats = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -69,5 +69,30 @@ export const getChats = async (req: Request, res: Response) => {
     // return res.send(chatsRes)
   } catch (err) {
     return res.status(400).send(err);
+  }
+};
+
+const UserSchema = z.object({
+  displayName: z.string().min(1),
+});
+
+export const updateUser = async (req: Request, res: Response) => {
+  const { user, ...data } = req.body;
+  try {
+    const data_parse = UserSchema.safeParse(data);
+    if (data_parse.success) {
+      const true_data = data_parse.data;
+      const result = await db.user.update({
+        where: { id: user.id },
+        data: true_data,
+      });
+      console.log(result);
+      return res.send("Success");
+    } else {
+      return res.status(403).send("Wrong formatted");
+    }
+  } catch (err) {
+    console.log(err);
+    return res.send(403).send("Forbidden");
   }
 };

@@ -1,13 +1,45 @@
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/contexts/UserContext";
-import { Avatar } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { socket } from "../../lib/socket";
+import { useState } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import TextInput from "../form/TextInput";
+
+const UserSchema = z.object({
+  displayName: z.string().min(1),
+});
+
+type User = z.infer<typeof UserSchema>;
 
 function MenuBar() {
   const iconClassName = "h-4 w-4";
   const navigate = useNavigate();
   const { currentUser, fetchUser } = useUser();
+  const [open, setOpen] = useState<boolean>(false);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<User>({
+    resolver: zodResolver(UserSchema),
+  });
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
   const menuList = [
     {
       name: "Log Out",
@@ -23,7 +55,7 @@ function MenuBar() {
           );
 
           await fetchUser();
-          socket.emit("leave-global-chat")
+          socket.emit("leave-global-chat");
 
           navigate("/");
         } catch (err) {
@@ -32,6 +64,21 @@ function MenuBar() {
       },
     },
   ];
+
+  const onSubmit = async (data: User) => {
+    console.log(data);
+    const result = await fetch(import.meta.env.VITE_BACKEND_URL + "/users/", {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (result.ok) {
+      navigate(0);
+    }
+  };
 
   const isTooCloseToWhite = (color: string): boolean => {
     const r: number = parseInt(color.substring(1, 3), 16);
@@ -62,7 +109,6 @@ function MenuBar() {
   if (gradientText) {
     gradientText.style.backgroundImage = `linear-gradient(45deg, ${getRandomColor()}, ${getRandomColor()})`;
   }
-
   return (
     <div>
       <ul className="menu bg-base-200 w-56 rounded-box text-sm">
@@ -70,12 +116,35 @@ function MenuBar() {
           <li className="flex justify-center items-center">
             <button
               className="w-fit h-fit rounded-full"
-              onClick={() => {
-                navigate("/profile");
-              }}
+              onClick={toggleDrawer(true)}
             >
               <Avatar sx={{ width: 52, height: 52 }} src={currentUser.avatar} />
             </button>
+            <Drawer open={open} onClose={toggleDrawer(false)} anchor="bottom">
+              <div className="flex flex-col items-center gap-2 p-2">
+                <Avatar
+                  sx={{ width: 52, height: 52 }}
+                  src={currentUser.avatar}
+                />
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex flex-col items-center"
+                >
+                  <TextInput
+                    type={"text"}
+                    fieldName={"New Display Name"}
+                    placeholder={""}
+                    name={"displayName"}
+                    register={register}
+                    error={errors.displayName}
+                  />
+                  <button type="submit" className="primary-button">
+                    Confirm
+                  </button>
+                </form>
+              </div>
+            </Drawer>
+
             <div
               id="gradientText"
               className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 pointer-events-none"
