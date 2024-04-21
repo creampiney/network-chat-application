@@ -2,6 +2,7 @@ import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/contexts/UserContext";
 import { Avatar } from "@mui/material";
+import { socket } from "../../lib/socket";
 
 function MenuBar() {
   const iconClassName = "h-4 w-4";
@@ -20,7 +21,10 @@ function MenuBar() {
               credentials: "include",
             }
           );
-          fetchUser();
+
+          await fetchUser();
+          socket.emit("leave-global-chat")
+
           navigate("/");
         } catch (err) {
           console.log(err);

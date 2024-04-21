@@ -19,7 +19,7 @@ const Home = () => {
     const chatId = await createChat(userId, currentUser.id);
     if (!chatId) return;
 
-    navigate("private/" + chatId, { relative: "route" });
+    navigate("/chat/private/" + chatId, { relative: "route" });
   }
   if (!currentUser) <LoadingPage />;
 
@@ -28,7 +28,7 @@ const Home = () => {
       <div className="flex flex-col w-full">
         <h2>Online Users Count : {userCount}</h2>
         <ul className="flex flex-col p-2">
-          {userMap.map((user, idx) => {
+          {userMap.map((user) => {
             return (
               <li
                 key={user.userId}

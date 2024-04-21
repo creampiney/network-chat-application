@@ -58,6 +58,15 @@ io.on("connection", (socket) => {
     console.log(`user in system is ${userSocket.size}`);
   });
 
+  socket.on("leave-global-chat", () => {
+    userSocket.delete(socket.id)
+    
+    io.emit("global-chat", {
+      userMap: [...userSocket.values()],
+    });
+    console.log(`user in system is ${userSocket.size}`);
+  });
+
   socket.on("disconnect", () => {
     userSocket.delete(socket.id);
     socket.broadcast.emit("global-chat", {

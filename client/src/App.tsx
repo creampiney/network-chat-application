@@ -21,7 +21,8 @@ function App() {
               <Route path="/chat/rooms" element={<ChatPage current="rooms" />} />
               <Route path="/chat/groups" element={<ChatPage current="groups" />} /> */}
               <Route path="chat" element={<ChatPage />}>
-                <Route path="" element={<Home />} />
+                <Route path="" element={<Navigate to="/chat/home" replace={true} />} />
+                <Route path="home" element={<Home />} />
                 <Route path="private" element={<PrivateChatPage />} />
                 <Route path="private/:chatId" element={<PrivateChatPage />} />
             
