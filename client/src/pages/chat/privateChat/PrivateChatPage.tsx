@@ -116,7 +116,7 @@ const PrivateChatPage = () => {
   if (!currentUser) return <NotFoundPage />;
 
   return (
-    <div className="w-full h-[calc(100vh-7rem)] flex">
+    <div className="w-full h-full flex">
       <div className="h-full w-1/4 flex flex-col border-r border-slate-300">
         <ChatSearchBox
           value={searchName}
