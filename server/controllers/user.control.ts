@@ -4,12 +4,11 @@ import { z } from "zod";
 import { io, userSocket } from "..";
 //=========================================================
 
-//@desc     Get All Chats
+//@desc     Get All Private Chats
 //@route    GET /users/:id/chats
 //@access   Private
 export const getChats = async (req: Request, res: Response) => {
   const { id } = req.params;
-
   if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
     return res.status(404).send("No user found");
   }
@@ -66,6 +65,21 @@ export const getChats = async (req: Request, res: Response) => {
     });
 
     return res.send(result);
+
+    // return res.send(chatsRes)
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+//@desc     Get All Public Chats
+//@route    GET /users/public/chats
+//@access   Private
+export const getAllPublicChats = async (req: Request, res: Response) => {
+  try {
+    const chatsRes = await db.publicChat.findMany();
+
+    return res.send(chatsRes);
 
     // return res.send(chatsRes)
   } catch (err) {

@@ -45,11 +45,13 @@ model PrivateChat {
 
 model PublicChat {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  chatName        String
+  chatAvatar      String
   messages        Message[] @relation("containMessagesPublic")
   lastUpdated     DateTime  @default(now())
-  participant    User[]      @relation( fields: [participantId], references: [id]) //onCascade not support
-  participantId  String[]    @db.ObjectId
-  participantUnread    Int[]     @default([])
+  participants    User[]      @relation( fields: [participantsId], references: [id]) //onCascade not support
+  participantsId  String[]    @db.ObjectId
+  participantsUnread    Int[]     @default([])
   
 }
 

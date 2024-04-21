@@ -127,25 +127,28 @@ io.on("connection", (socket) => {
 
         if (!senderUser) return;
 
-        io.emit(`chats:${message.chatPrivateId}:addMessage`, message);
+        if (message.chatPrivateId) {
+          io.emit(`chats:${message.chatPrivateId}:addMessage`, message);
+          io.emit(`users:${message.senderId}:chatsUpdate`);
+          io.emit(`users:${sendTo}:chatsUpdate`);
 
-        io.emit(`users:${message.senderId}:chatsUpdate`);
-        io.emit(`users:${sendTo}:chatsUpdate`);
-
-        io.emit(`users:${sendTo}:notifications`, {
-          type: "Chat",
-          context: message.chatPrivateId,
-          title: `Chat from ${senderUser.displayName} | HorHub`,
-          message:
-            message.type === "Text"
-              ? message.text
-              : message.type === "Images"
-              ? `${message.pictures.length} picture(s) ${
-                  message.pictures.length > 1 ? "are" : "is"
-                } sent`
-              : "The location is sent",
-          icon: senderUser.avatar,
-        });
+          io.emit(`users:${sendTo}:notifications`, {
+            type: "Chat",
+            context: message.chatPrivateId,
+            title: `Chat from ${senderUser.displayName} | HorHub`,
+            message:
+              message.type === "Text"
+                ? message.text
+                : message.type === "Images"
+                ? `${message.pictures.length} picture(s) ${
+                    message.pictures.length > 1 ? "are" : "is"
+                  } sent`
+                : "The location is sent",
+            icon: senderUser.avatar,
+          });
+        } else {
+          io.emit(`chats:${message.chatPublicId}:addMessage`, message);
+        }
       } catch (err) {
         console.log(err);
       }

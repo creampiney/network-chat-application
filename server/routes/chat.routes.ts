@@ -6,7 +6,17 @@ import { io } from "..";
 
 const router = Router();
 
-import { getChat, createChat, updateChat } from "../controllers/chat.control";
+import {
+  getChat,
+  createChat,
+  updateChat,
+  createPublicChat,
+  getPublicChatById,
+} from "../controllers/chat.control";
+
+router.get("/public/:id", authenticate, getPublicChatById);
+
+router.post("/public", authenticate, createPublicChat);
 
 router.get("/:id", authenticate, getChat);
 

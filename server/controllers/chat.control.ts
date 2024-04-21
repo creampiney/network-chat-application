@@ -70,11 +70,152 @@ export const getChat = async (req: Request, res: Response) => {
   }
 };
 
+//@desc     Get a Public chat
+//@route    GET chats/public/:id
+//@access   Public
+
+export const getPublicChatById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const user = req.body.user;
+
+  if (id.length != 24 || /[0-9A-Fa-f]{24}/g.test(id) === false) {
+    return res.status(404).send("No chat found");
+  }
+
+  try {
+    // Check if chat is valid
+    const chatRes = await db.publicChat.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        participants: {
+          select: {
+            id: true,
+            displayName: true,
+            avatar: true,
+          },
+        },
+        messages: {
+          orderBy: {
+            sentAt: "asc",
+          },
+        },
+      },
+    });
+    console.log(chatRes);
+    if (!chatRes) {
+      return res.status(404).send("No chat found");
+    }
+
+    if (!chatRes.participantsId.includes(user.id)) {
+      return res.status(403).send("You don't have access to this chat");
+    }
+
+    return res.send(chatRes);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+//@desc     Create a Public chat
+//@route    POST chats/public/
+//@access   Public
+
+const createPublicRoomBodySchema = z.object({
+  participantId: z.string(),
+  chatName: z.string(),
+  chatAvatar: z.string().url(),
+});
+
+export const createPublicChat = async (req: Request, res: Response) => {
+  const body = req.body;
+  const parseStatus = createPublicRoomBodySchema.safeParse(body);
+  if (!parseStatus.success) return res.status(400).send("Invalid Data");
+  const parsedBody = parseStatus.data;
+
+  try {
+    // Check if participant Id is valid or not
+    if (
+      parsedBody.participantId.length != 24 ||
+      /[0-9A-Fa-f]{24}/g.test(parsedBody.participantId) === false
+    ) {
+      return res.status(404).send("Participant not found");
+    }
+    const chatRes = await db.publicChat.create({
+      data: {
+        participantsId: [parsedBody.participantId],
+        chatName: parsedBody.chatName,
+        chatAvatar: parsedBody.chatAvatar,
+      },
+    });
+
+    return res.send(chatRes);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
 //@desc     Create a chat
-//@route    GET chats/
+//@route    PUT chats/:id
 //@access   Private
 
 export const createChat = async (req: Request, res: Response) => {
+  const body = req.body;
+  const { id } = req.params;
+  const parseStatus = createPublicRoomBodySchema.safeParse(body);
+  if (!parseStatus.success) return res.status(400).send("Invalid Data");
+
+  const parsedBody = parseStatus.data;
+
+  try {
+    // Check if participant Id is valid or not
+    if (
+      parsedBody.participantId.length != 24 ||
+      /[0-9A-Fa-f]{24}/g.test(parsedBody.participantId) === false
+    ) {
+      return res.status(404).send("Participant A not found");
+    }
+
+    // If there is room already, send that room
+    const findOldChatRoom = await db.publicChat.findUnique({
+      where: { id: id },
+    });
+    if (!findOldChatRoom) {
+      return res.status(404).send("Cannot Join : Not found chat room");
+    }
+
+    if (findOldChatRoom.participantsId.includes(parsedBody.participantId)) {
+      return res.send(findOldChatRoom);
+    }
+
+    const chatRes = await db.publicChat.update({
+      where: {
+        id: id,
+      },
+      data: {
+        participantsId: [
+          ...findOldChatRoom.participantsId,
+          parsedBody.participantId,
+        ],
+      },
+    });
+    /*
+    io.emit(`users:${parsedBody.participantAId}:chatsUpdate`);
+    io.emit(`users:${parsedBody.participantBId}:chatsUpdate`);
+    */
+    return res.send(chatRes);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+//@desc     Join a Public chat
+//@route    GET chats/
+//@access   Private
+
+export const joinChat = async (req: Request, res: Response) => {
   const body = req.body;
 
   const parseStatus = createRoomBodySchema.safeParse(body);

@@ -33,7 +33,6 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
         ...user,
         ...userQuery,
       };
-
       next();
     }
   );

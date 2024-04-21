@@ -16,6 +16,18 @@ export type Chat = {
   latestMessage?: Message;
 };
 
+export type ChatPublic = {
+  id: string;
+  participants: {
+    id: string;
+    displayName: string;
+    avatar: string;
+  }[];
+  participantsUnread: number[];
+  lastUpdated: Date;
+  latestMessage?: Message;
+};
+
 export type Message = {
   id: string;
   senderId: string;
