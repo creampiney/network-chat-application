@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import { z } from "zod";
 import { db } from "../lib/db";
 import { authenticate } from "../middleware/authenticator";
-import { io } from "..";
+import { io, userSocket } from "..";
 
 const createRoomBodySchema = z.object({
   participantAId: z.string(),
@@ -153,7 +153,7 @@ export const createPublicChat = async (req: Request, res: Response) => {
         publicChatId: { push: chatRes.id },
       },
     });
-    io.emit("updateData:public");
+    io.emit("global-updateData:public");
     return res.send(chatRes);
   } catch (err) {
     return res.status(400).send(err);
@@ -267,6 +267,16 @@ export const joinChat = async (req: Request, res: Response) => {
       where: { id: user.id },
       data: { publicChatId: { push: id } },
     });
+    const senderSocket: string[] = [];
+    userSocket.forEach((value, key) => {
+      if (value.userId === user.id) {
+        senderSocket.push(key);
+      }
+    });
+
+    if (senderSocket.length !== 0) {
+      io.to(senderSocket).emit("global-updateData:public");
+    }
 
     io.to(id).emit("public-chat:message", "some one join your room ");
     /*

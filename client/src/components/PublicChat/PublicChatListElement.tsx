@@ -19,11 +19,23 @@ const PublicChatListElement = ({
     return <></>;
   }
 
+  const onJoin = async () => {
+    const result = await fetch(
+      import.meta.env.VITE_BACKEND_URL + `/chats/public/${chat.id}/join`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+    console.log(result);
+  };
+
   const anotherParticipantDisplayName = chat.chatName;
 
   return (
     <Link
       to={"/chat/groups/" + chat.id}
+      onClick={onJoin}
       className={
         "w-full h-16 flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-xs text-black " +
         (newChat ? "bg-orange-400" : "")

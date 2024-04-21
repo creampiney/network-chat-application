@@ -60,7 +60,7 @@ export default function PublicChatPage() {
       console.log("someone send you a message");
     });
 
-    socket.on("updateData:public", () => {
+    socket.on("global-updateData:public", () => {
       fetchUser();
       initChatRooms();
     });
@@ -68,7 +68,7 @@ export default function PublicChatPage() {
     return function cleanup() {
       socket.off(`public-chat:message`);
       socket.off("updateData");
-      socket.emit("global-public-chat:unsubscribe", {
+      socket.emit("public-chat:unsubscribe", {
         publicChatId: currentUser.publicChatId,
       });
     };
