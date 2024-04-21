@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ThemeButton from "../../components/etc/ThemeButton"
 import { Link, Navigate } from "react-router-dom"
 import { useUser } from "../../lib/contexts/UserContext"
@@ -38,6 +38,10 @@ const LoginPage = () => {
       setError(true)
     }
   }
+
+  useEffect(() => {
+    window.document.title = "Sign In"
+  }, [])
 
   if (isLoading) return <div className="full-page"></div>
 

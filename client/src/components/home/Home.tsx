@@ -5,6 +5,7 @@ import { useUser } from "../../lib/contexts/UserContext";
 import { createChat } from "../../lib/chat";
 import LoadingPage from "../../pages/etc/LoadingPage";
 import { IoChatbubbleEllipses } from "react-icons/io5";
+import { useEffect } from "react";
 
 const Home = () => {
   const { userCount, userMap } = useOutletContext<{
@@ -22,6 +23,10 @@ const Home = () => {
 
     navigate("/chat/private/" + chatId, { relative: "route" });
   }
+
+  useEffect(() => {
+    window.document.title = "Home"
+  }, [])
 
   if (!currentUser) <LoadingPage />;
 

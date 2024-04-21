@@ -98,7 +98,7 @@ const PrivateChatPage = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    window.document.title = "Chats | HorHub";
+    window.document.title = "Private Chats";
   }, []);
 
   useEffect(() => {
