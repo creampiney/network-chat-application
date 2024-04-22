@@ -33,6 +33,11 @@ export type PublicChat = {
 export type Message = {
   id: string;
   senderId: string;
+  sender?: {
+    id: string,
+    displayName: string,
+    avatar: string,
+  }
   type: "Text" | "Images" | "Location";
   text?: string;
   pictures?: string[];

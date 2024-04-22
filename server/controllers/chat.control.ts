@@ -101,6 +101,15 @@ export const getPublicChatById = async (req: Request, res: Response) => {
           orderBy: {
             sentAt: "asc",
           },
+          include: {
+            sender: {
+              select: {
+                id: true,
+                displayName: true,
+                avatar: true
+              }
+            }
+          }
         },
       },
     });

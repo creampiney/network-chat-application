@@ -28,10 +28,10 @@ const PublicChatMessageSendBox = ({
       return;
     }
     socket.emit(
-      `publicChats:sendMessage`,
+      `public-chat:sendMessage`,
       {
         senderId: currentUser.id,
-        publicChatId: publicChatId,
+        chatPublicId: publicChatId,
         type: "Text",
         text: text,
         sentAt: new Date(),
@@ -47,10 +47,10 @@ const PublicChatMessageSendBox = ({
     const imagesURL = await uploadImages(images, "publicChats/" + publicChatId + "/images");
 
     socket.emit(
-      `publicChats:sendMessage`,
+      `public-chat:sendMessage`,
       {
         senderId: currentUser.id,
-        publicChatId: publicChatId,
+        chatPublicId: publicChatId,
         type: "Images",
         pictures: imagesURL,
         sentAt: new Date(),
@@ -64,10 +64,10 @@ const PublicChatMessageSendBox = ({
     }
 
     socket.emit(
-      `publicChats:sendMessage`,
+      `public-chat:sendMessage`,
       {
         senderId: currentUser.id,
-        publicChatId: publicChatId,
+        chatPublicId: publicChatId,
         type: "Location",
         latitude: latitude,
         longitude: longitude,

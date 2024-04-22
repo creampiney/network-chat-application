@@ -4,6 +4,7 @@ import { useUser } from "../../../lib/contexts/UserContext";
 import { Chat, Message, PublicChat } from "../../../lib/types/Chat";
 import PublicChatTitle from "./PublicChatTitle";
 import PublicChatMessageSendBox from "./PublicChatMessageSendBox";
+import PublicChatMessagePane from "./PublicChatMessagePane";
 
 const PublicChatPanel = ({ publicChatId }: { publicChatId: string }) => {
   // let { chatId } = useParams();
@@ -94,22 +95,7 @@ const PublicChatPanel = ({ publicChatId }: { publicChatId: string }) => {
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <PublicChatTitle publicChat={publicChatRoom} />
-      <div className="grow w-full">
-
-      </div>
-      {/* <ChatMessagePane
-        myUser={
-          currentUser.id === chatRoom.participantA.id
-            ? chatRoom.participantA
-            : chatRoom.participantB
-        }
-        anotherUser={
-          currentUser.id === chatRoom.participantA.id
-            ? chatRoom.participantB
-            : chatRoom.participantA
-        }
-        messages={messages}
-      /> */}
+      <PublicChatMessagePane messages={messages} />
       <PublicChatMessageSendBox
         publicChat={publicChatRoom}
         publicChatId={publicChatId || ""}

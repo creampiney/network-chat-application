@@ -46,6 +46,9 @@ type UserObject = {
 export let userSocket: Map<string, UserObject> = new Map();
 
 io.on("connection", (socket) => {
+
+  // -------- Public Chats (Groups) ----------------
+
   socket.on("public-chat:subscribe", ({ publicChatId }) => {
     socket.join(publicChatId);
     console.log(`user join public-chat`);
@@ -55,6 +58,38 @@ io.on("connection", (socket) => {
     socket.join(publicChatId);
     console.log(`user is left the public-chat`);
   });
+
+  socket.on('public-chat:sendMessage', async (message: Message) => {
+    console.log(message);
+
+    try {
+      // Create message
+      const createMessage = await db.message.create({
+        data: message,
+      });
+
+      // Update timestamp and unread array
+      const updatePublicChat = await db.publicChat.update({
+        where: {
+          id: message.chatPublicId || ""
+        },
+        data: {
+          lastUpdated: message.sentAt,
+
+        }
+      })
+
+      socket.to(message.chatPublicId || "").emit("public-chat:message", message)
+
+    } catch (err) {
+      console.log(err)
+    }
+  })
+
+
+
+
+  // --------------------------------------------------------------------
 
   socket.on("join-global-chat", ({ userId, displayName, avatar }) => {
     userSocket.set(socket.id, {
@@ -146,7 +181,7 @@ io.on("connection", (socket) => {
           io.emit(`users:${sendTo}:notifications`, {
             type: "Chat",
             context: message.chatPrivateId,
-            title: `Chat from ${senderUser.displayName} | HorHub`,
+            title: `Chat from ${senderUser.displayName}`,
             message:
               message.type === "Text"
                 ? message.text
@@ -165,6 +200,8 @@ io.on("connection", (socket) => {
       }
     }
   );
+
+  
 });
 
 server.listen(port, () => {
