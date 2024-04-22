@@ -24,11 +24,13 @@ const PublicChatMessage = ({
             <img src={message.sender?.avatar || ""} />
           </div>
         </div>
-        <div className="secondary-text text-xs">
-          {new Date(message.sentAt).toLocaleTimeString("en-US", {
+        <div className="secondary-text text-xs flex flex-col gap-0.5 mb-0.5">
+          <div className="secondary-text text-xs font-bold">{message.sender?.displayName || ""}</div>
+          <div>{new Date(message.sentAt).toLocaleTimeString("en-US", {
             hour: "2-digit",
             minute: "2-digit",
-          })}
+          })}</div>
+          
         </div>
         {message.type === "Text" ? (
           <ChatMessageText text={message.text || ""} />
@@ -42,17 +44,18 @@ const PublicChatMessage = ({
             longitude={message.longitude ? message.longitude : 0}
           />
         )}
-        <div className="secondary-text text-xs">{message.sender?.displayName || ""}</div>
+        
       </div>
     );
   } else {
     return (
       <div className="chat chat-end flex flex-col">
-        <div className="secondary-text text-xs">
-          {new Date(message.sentAt).toLocaleTimeString("en-US", {
+        <div className="secondary-text text-xs flex flex-col items-end gap-0.5 mb-0.5">
+          <div className="secondary-text text-xs font-bold">{currentUser?.displayName}</div>
+          <div>{new Date(message.sentAt).toLocaleTimeString("en-US", {
             hour: "2-digit",
             minute: "2-digit",
-          })}
+          })}</div>
         </div>
         {message.type === "Text" ? (
           <ChatMessageText text={message.text || ""} />
