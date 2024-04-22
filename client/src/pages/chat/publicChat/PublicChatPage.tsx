@@ -106,13 +106,13 @@ export default function PublicChatPage() {
                 );
               })}
             <button
-              className="w-full flex p-4 secondary-text items-center flex-col bg-sky-400"
+              className="w-full flex p-4 secondary-text items-center flex-col bg-slate-200 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
               onClick={() => {
                 setOpen(true);
               }}
             >
               <div className="h-full grow overflow-clip flex items-center gap-1 justify-center">
-                <IoMdAddCircle className="w-8 h-8 text-black" />
+                <IoMdAddCircle className="w-8 h-8 " />
                 <div className="font-bold text-sm truncate">Add New Room</div>
               </div>
               <div className="flex flex-col items-end"></div>

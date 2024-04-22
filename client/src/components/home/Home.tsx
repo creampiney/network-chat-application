@@ -1,6 +1,6 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { UserObject } from "../../pages/chat/ChatPage";
-import { Avatar } from "@mui/material";
+import { Avatar, Tooltip } from "@mui/material";
 import { useUser } from "../../lib/contexts/UserContext";
 import { createChat } from "../../lib/chat";
 import LoadingPage from "../../pages/etc/LoadingPage";
@@ -50,14 +50,16 @@ const Home = () => {
                   <p className="text-base-100 font-bold">{user.displayName}{(currentUser && user.userId === currentUser.id) && <span className="font-normal"> (me)</span>}</p>
                 </div>
                 {currentUser?.id != user.userId && (
-                  <button
-                    className="p-2 rounded-full aspect-square hover:bg-slate-100 hover:dark:bg-slate-800 transition-colors"
-                    onClick={() => {
-                      handleCreateChat(user.userId);
-                    }}
-                  >
-                    <IoChatbubbleEllipses className="w-5 h-5" />
-                  </button>
+                  <Tooltip title="Start Chatting">
+                    <button
+                      className="p-2 rounded-full aspect-square hover:bg-slate-100 hover:dark:bg-slate-800 transition-colors"
+                      onClick={() => {
+                        handleCreateChat(user.userId);
+                      }}
+                    >
+                      <IoChatbubbleEllipses className="w-5 h-5" />
+                    </button>
+                  </Tooltip>
                 )}
               </li>
             );

@@ -1,8 +1,9 @@
-import { Avatar } from "@mui/material";
+import { Avatar, Tooltip } from "@mui/material";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PublicChat } from "../../lib/types/Chat";
 import { useUser } from "../../lib/contexts/UserContext";
+import { IoChatbubbleEllipses, IoEnter } from "react-icons/io5";
 
 const PublicChatListElement = ({
   chat,
@@ -13,6 +14,9 @@ const PublicChatListElement = ({
   setChatRooms: React.Dispatch<React.SetStateAction<PublicChat[]>>;
   newChat: boolean;
 }) => {
+  
+  const navigate = useNavigate()
+
   const { currentUser, isLoading } = useUser();
 
   if (!currentUser) {
@@ -28,15 +32,44 @@ const PublicChatListElement = ({
       }
     );
     console.log(result);
+    navigate("/chat/groups/" + chat.id)
   };
+
+  if (newChat) {
+    return (
+      <button
+        className={
+          "w-full h-16 flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-xs text-black "
+      }
+      >
+        <div className="w-full px-5 flex gap-3 secondary-text">
+          <Avatar src={chat.chatAvatar} />
+          <div className="h-full grow overflow-clip flex gap-1 items-center justify-between">
+            <div className="font-bold text-sm truncate">
+              {chat.chatName}
+            </div>
+            <div className="px-0">
+              <Tooltip title="Join Group">
+                <button
+                  onClick={onJoin}
+                  className="p-2 rounded-full aspect-square hover:bg-slate-200 hover:dark:bg-slate-700 transition-colors items-center justify-center"
+                >
+                  <IoChatbubbleEllipses className="w-5 h-5" />
+                </button>
+              </Tooltip>
+            </div>
+      
+          </div>
+        </div>
+      </button>
+    )
+  }
 
   return (
     <Link
       to={"/chat/groups/" + chat.id}
-      onClick={onJoin}
       className={
-        "w-full h-16 flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-xs text-black " +
-        (newChat ? "bg-orange-400" : "")
+        "w-full h-16 flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-xs text-black"
       }
     >
       <div className="w-full px-5 flex gap-3 secondary-text">
