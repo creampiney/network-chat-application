@@ -11,6 +11,7 @@ import { socket } from "../../../lib/socket";
 import PublicChatListElement from "../../../components/PublicChat/PublicChatListElement";
 import { IoMdAddCircle } from "react-icons/io";
 import PublicAddRoomModal from "../../../components/PublicChat/PublicAddRoomModal";
+import PublicChatPanel from "../../../components/PublicChat/PublicChatPanel/PublicChatPanel";
 
 export default function PublicChatPage() {
   let { groupId } = useParams();
@@ -128,7 +129,7 @@ export default function PublicChatPage() {
         </div>
       </div>
       <div className="h-full w-3/4 flex flex-col">
-        {/* {chatId && <ChatPanel chatId={chatId} />} */}
+        {groupId && <PublicChatPanel publicChatId={groupId} />}
       </div>
     </div>
   );
