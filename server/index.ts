@@ -66,6 +66,15 @@ io.on("connection", (socket) => {
       // Create message
       const createMessage = await db.message.create({
         data: message,
+        include: {
+          sender: {
+            select: {
+              id: true,
+              displayName: true,
+              avatar: true
+            }
+          }
+        }
       });
 
       // Update timestamp and unread array
@@ -79,11 +88,8 @@ io.on("connection", (socket) => {
         }
       })
 
-      // socket.to(message.chatPublicId || "").emit("public-chat:message", message)
-      socket.emit("public-chat:message", message)
-      socket.emit("global-updateData:public")
-      // socket.emit("")
-      socket.emit(`public-chat:${message.chatPublicId}:addMessage`, message)
+      io.emit("global-updateData:public")
+      io.emit(`public-chat:${message.chatPublicId}:addMessage`, createMessage)
 
     } catch (err) {
       console.log(err)
