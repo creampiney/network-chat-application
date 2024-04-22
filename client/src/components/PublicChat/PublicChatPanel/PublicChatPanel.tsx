@@ -37,13 +37,13 @@ const PublicChatPanel = ({ publicChatId }: { publicChatId: string }) => {
 
         console.log(data);
 
-        const readRes = await fetch(
-          import.meta.env.VITE_BACKEND_URL + "/chats/public/" + publicChatId + "/read",
-          {
-            method: "PUT",
-            credentials: "include",
-          }
-        );
+        // const readRes = await fetch(
+        //   import.meta.env.VITE_BACKEND_URL + "/chats/public/" + publicChatId + "/read",
+        //   {
+        //     method: "PUT",
+        //     credentials: "include",
+        //   }
+        // );
 
         setFetching(false);
       } else {
@@ -57,6 +57,7 @@ const PublicChatPanel = ({ publicChatId }: { publicChatId: string }) => {
   }
 
   function addMessage(newMessage: Message) {
+    console.log("Add Message")
     const newMessages = [...messages, newMessage];
     setMessages(newMessages);
   }
@@ -74,12 +75,13 @@ const PublicChatPanel = ({ publicChatId }: { publicChatId: string }) => {
   // }, [chatId])
 
   useEffect(() => {
-    socket.on(`publicChats:${publicChatId}:addMessage`, (message) => addMessage(message));
+    console.log(publicChatId)
+    socket.on(`public-chat:${publicChatId}:addMessage`, (message) => addMessage(message));
     socket.on("updateData", () => {
       initRoom();
     });
     return function cleanup() {
-      socket.off(`publicChats:${publicChatId}:addMessage`);
+      socket.off(`public-chat:${publicChatId}:addMessage`);
       socket.off("updateData");
     };
   }, [messages, publicChatId]);

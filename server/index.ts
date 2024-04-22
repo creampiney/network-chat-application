@@ -55,12 +55,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("public-chat:unsubscribe", ({ publicChatId }) => {
-    socket.join(publicChatId);
+    socket.leave(publicChatId);
     console.log(`user is left the public-chat`);
   });
 
   socket.on('public-chat:sendMessage', async (message: Message) => {
-    console.log(message);
+    // console.log(message);
 
     try {
       // Create message
@@ -79,7 +79,11 @@ io.on("connection", (socket) => {
         }
       })
 
-      socket.to(message.chatPublicId || "").emit("public-chat:message", message)
+      // socket.to(message.chatPublicId || "").emit("public-chat:message", message)
+      socket.emit("public-chat:message", message)
+      socket.emit("global-updateData:public")
+      // socket.emit("")
+      socket.emit(`public-chat:${message.chatPublicId}:addMessage`, message)
 
     } catch (err) {
       console.log(err)

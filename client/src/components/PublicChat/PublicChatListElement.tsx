@@ -30,8 +30,6 @@ const PublicChatListElement = ({
     console.log(result);
   };
 
-  const anotherParticipantDisplayName = chat.chatName;
-
   return (
     <Link
       to={"/chat/groups/" + chat.id}
@@ -45,21 +43,21 @@ const PublicChatListElement = ({
         <Avatar src={chat.chatAvatar} />
         <div className="h-full grow overflow-clip flex flex-col gap-1 justify-center">
           <div className="font-bold text-sm truncate">
-            {anotherParticipantDisplayName}
+            {chat.chatName}
           </div>
           {chat.latestMessage &&
             (chat.latestMessage.type === "Text" ? (
               <p className="truncate">
                 {currentUser.id === chat.latestMessage.senderId
                   ? "You"
-                  : anotherParticipantDisplayName}
+                  : chat.latestMessage.sender?.displayName}
                 : {chat.latestMessage.text}
               </p>
             ) : chat.latestMessage.type === "Images" ? (
               <p className="truncate">
                 {currentUser.id === chat.latestMessage.senderId
                   ? "You"
-                  : anotherParticipantDisplayName}{" "}
+                  : chat.latestMessage.sender?.displayName}{" "}
                 sent {chat.latestMessage.pictures?.length || 1} image
                 {(chat.latestMessage.pictures?.length || 1) > 1 && "s"}
               </p>
@@ -67,7 +65,7 @@ const PublicChatListElement = ({
               <p className="truncate">
                 {currentUser.id === chat.latestMessage.senderId
                   ? "You"
-                  : anotherParticipantDisplayName}{" "}
+                  : chat.latestMessage.sender?.displayName}{" "}
                 sent a location
               </p>
             ))}

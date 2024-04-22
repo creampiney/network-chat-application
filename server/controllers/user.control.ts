@@ -77,9 +77,34 @@ export const getChats = async (req: Request, res: Response) => {
 //@access   Private
 export const getAllPublicChats = async (req: Request, res: Response) => {
   try {
-    const chatsRes = await db.publicChat.findMany();
+    const chatsRes = await db.publicChat.findMany({
+      include: {
+        messages: {
+          orderBy: {
+            sentAt: 'desc'
+          },
+          take: 1,
+          include: {
+            sender: {
+              select: {
+                id: true,
+                displayName: true,
+                avatar: true
+              }
+            }
+          }
+        }
+      }
+    });
 
-    return res.send(chatsRes);
+    return res.send(chatsRes.map((chat) => {
+      if (chat.messages.length === 0) {
+        return chat
+      }
+      else {
+        return {...chat, latestMessage: chat.messages[0]}
+      }
+    }));
 
     // return res.send(chatsRes)
   } catch (err) {

@@ -51,15 +51,15 @@ export default function PublicChatPage() {
   useEffect(() => {
     if (!currentUser) return;
     initChatRooms();
-    socket.emit("global-public-chat:subscribe", {
+    socket.emit("public-chat:subscribe", {
       publicChatId: currentUser.publicChatId,
     });
-    socket.on("public-chat:message", (mesg) => {
-      console.log(mesg);
-      fetchUser();
-      initChatRooms();
-      console.log("someone send you a message");
-    });
+    // socket.on("public-chat:message", (mesg) => {
+    //   console.log(mesg);
+    //   fetchUser();
+    //   initChatRooms();
+    //   console.log("someone send you a message");
+    // });
 
     socket.on("global-updateData:public", () => {
       fetchUser();
@@ -67,13 +67,13 @@ export default function PublicChatPage() {
     });
 
     return function cleanup() {
-      socket.off(`public-chat:message`);
-      socket.off("updateData");
+      // socket.off(`public-chat:message`);
+      socket.off("global-updateData:public");
       socket.emit("public-chat:unsubscribe", {
         publicChatId: currentUser.publicChatId,
       });
     };
-  }, [isLoading]);
+  }, [isLoading, groupId]);
 
   if (isLoading) return <LoadingPage />;
   if (!currentUser) return <NotFoundPage />;
