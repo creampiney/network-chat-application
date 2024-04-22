@@ -23,7 +23,7 @@ const ImageInput = ({fieldName, image, setImage, defaultImageURL}: ImageInputPro
       
           <label className="form-control w-full flex gap-3">
             <div className="label">
-                <span className="label-text font-semibold">{fieldName}</span>
+                <span className="label-text font-semibold secondary-text">{fieldName}</span>
             </div>
             <div className="w-full flex gap-3">
               <div className="flex item-center justify-center">

@@ -70,7 +70,7 @@ const Sidebar = ({ current }: { current?: string }) => {
             </div>
             <div
               tabIndex={0}
-              className="dropdown-content z-[1] menu shadow bg-white rounded-box -bottom-2 border border-slate-100"
+              className="dropdown-content z-[1] menu shadow  rounded-box -bottom-2 border bg-white border-slate-100 dark:bg-slate-900 dark:border-slate-800 w-fit"
             >
               <MenuBar />
             </div>

@@ -113,7 +113,7 @@ export default function PublicChatPage() {
             >
               <div className="h-full grow overflow-clip flex items-center gap-1 justify-center">
                 <IoMdAddCircle className="w-8 h-8 " />
-                <div className="font-bold text-sm truncate">Add New Room</div>
+                <div className="font-bold text-sm truncate">Create New Group</div>
               </div>
               <div className="flex flex-col items-end"></div>
             </button>

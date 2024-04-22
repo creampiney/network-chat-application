@@ -114,6 +114,7 @@ export const getAllPublicChats = async (req: Request, res: Response) => {
 
 const UserSchema = z.object({
   displayName: z.string().min(1),
+  avatar: z.string(),
 });
 
 export const updateUser = async (req: Request, res: Response) => {
