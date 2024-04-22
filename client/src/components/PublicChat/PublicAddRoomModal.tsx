@@ -40,7 +40,7 @@ export default function PublicAddRoomModal({
 }) {
   const [avatar, setAvatar] = useState<ImageType>({
     dataURL:
-      "https://firebasestorage.googleapis.com/v0/b/networkchatapplication.appspot.com/o/avatar%2Favatar2.png?alt=media&token=6c4120d7-47b7-4030-909f-a4da1904561b",
+      "https://firebasestorage.googleapis.com/v0/b/networkchatapplication.appspot.com/o/Chatavatar%2FIMG_6011.jpg?alt=media&token=5e76784b-8793-4a99-a39b-d4e24a07d288",
   });
   const {
     register,
@@ -80,12 +80,12 @@ export default function PublicAddRoomModal({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style} className="modal-box">
+      <Box sx={style} className="modal-box bg-white dark:bg-slate-800">
         <div className="flex flex-col gap-y-6">
           {/* <Typography id="modal-modal-title" variant="h6" component="h2">
 Do you really want to delete this dorm?
 </Typography> */}
-          <div className="font-bold text-lg text-center">{title}</div>
+          <div className="font-bold text-lg text-center primary-text">{title}</div>
 
           <div className="text-sm">{description}</div>
           <form
@@ -94,30 +94,23 @@ Do you really want to delete this dorm?
           >
             <TextInput
               type={"text"}
-              fieldName={"Chat Room Name : "}
-              placeholder={"type your chat room"}
+              fieldName={"Group Name"}
+              placeholder={"Group Name"}
               name={"chatName"}
               register={register}
               error={errors.chatName}
             />
             <ImageInput
-              fieldName={"Chat room Avatar"}
+              fieldName={"Group Image"}
               image={avatar}
               setImage={setAvatar}
               defaultImageURL={
-                "https://firebasestorage.googleapis.com/v0/b/networkchatapplication.appspot.com/o/avatar%2Favatar2.png?alt=media&token=6c4120d7-47b7-4030-909f-a4da1904561b"
+                "https://firebasestorage.googleapis.com/v0/b/networkchatapplication.appspot.com/o/Chatavatar%2FIMG_6011.jpg?alt=media&token=5e76784b-8793-4a99-a39b-d4e24a07d288"
               }
             />
-            <div className="flex">
-              <button
-                className="bordered-button w-full"
-                type="button"
-                onClick={handleClose}
-              >
-                No
-              </button>
-              <button className={`primary-button w-full`} type={"submit"}>
-                Yes
+            <div className="flex justify-center">
+              <button className={`primary-button`} type={"submit"}>
+                Create
               </button>
             </div>
           </form>

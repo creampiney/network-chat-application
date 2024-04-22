@@ -6,6 +6,7 @@ import ImageUploading, {
 import DeleteButton from "./Button/DeleteButton";
 import { CiImageOn } from "react-icons/ci";
 import { IoCaretBackOutline, IoCaretForwardOutline } from "react-icons/io5";
+import { Tooltip } from "@mui/material";
 
 type FormFieldProps = {
   fieldName: string;
@@ -45,10 +46,10 @@ const ImagesInput = ({
 }
 
   return (
-    <div className="App">
+    <div className="App secondary-text">
       <div className="label">
-        <span className="label-text font-semibold">{fieldName}</span>
-        <span className="label-text-alt">
+        <span className="label-text font-semibold secondary-text">{fieldName}</span>
+        <span className="label-text-alt secondary-text">
           {images.length}/{maxNumber}
         </span>
       </div>
@@ -71,14 +72,14 @@ const ImagesInput = ({
           <div className="w-full">
             <div
               className={
-                "flex items-center border w-full h-48 gap-3 p-3 rounded-lg border-black overflow-x-auto transition-colors " +
-                (isDragging && "bg-indigo-100")
+                "flex items-center border w-full h-48 gap-3 p-3 rounded-lg border-black dark:border-slate-100 overflow-x-auto transition-colors " +
+                (isDragging && "bg-indigo-100 dark:bg-indigo-700")
               }
               {...dragProps}
             >
               {imageList.length == 0 && (
-                <div className="flex flex-col w-full justify-center items-center text-center text-slate-700">
-                  <CiImageOn className="w-8 h-8 text-slate-700"/>
+                <div className="flex flex-col w-full justify-center items-center text-center secondary-text">
+                  <CiImageOn className="w-8 h-8 secondary-text"/>
                   Click on the button or drop images here to upload
                 </div>
               )}
@@ -93,23 +94,23 @@ const ImagesInput = ({
                       alt=""
                       className="object-cover w-32 h-32"
                     />
-                    <div className="image-item__btn-wrapper gap-2">
+                    <div className="flex justify-center gap-2">
                       {/* <button onClick={() => onImageUpdate(index)}>Update</button> */}
                       {
-                        (index !== 0) ? <button id={`image_input_idx_${index}_shiftleft`} type="button" onClick={() => swapImage(index, index-1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200">
+                        (index !== 0) ? <Tooltip title="Move Left"><button id={`image_input_idx_${index}_shiftleft`} type="button" onClick={() => swapImage(index, index-1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200 dark:hover:bg-slate-700">
                           <IoCaretBackOutline  className="w-4 h-4" />
-                        </button> :
-                        <button id={`image_input_idx_${index}_shiftleft`} type="button" className="p-1 rounded-md transition-colors text-gray-300" disabled>
+                        </button></Tooltip> :
+                        <button id={`image_input_idx_${index}_shiftleft`} type="button" className="p-1 rounded-md transition-colors text-gray-300 dark:text-slate-600" disabled>
                           <IoCaretBackOutline  className="w-4 h-4" />
                         </button>
                       }
                       
                       <DeleteButton id={`image_input_idx_${index}_delete`} onClick={() => onImageRemove(index)} />
                       {
-                        (index !== images.length - 1) ? <button id={`image_input_idx_${index}_shiftright`} type="button" onClick={() => swapImage(index, index+1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200">
+                        (index !== images.length - 1) ? <Tooltip title="Move Right"><button id={`image_input_idx_${index}_shiftright`} type="button" onClick={() => swapImage(index, index+1)} className="p-1 rounded-md transition-colors hover:bg-indigo-200 dark:hover:bg-slate-700">
                           <IoCaretForwardOutline  className="w-4 h-4" />
-                        </button> :
-                        <button id={`image_input_idx_${index}_shiftright`} type="button" className="p-1 rounded-md transition-colors text-gray-300" disabled>
+                        </button></Tooltip> :
+                        <button id={`image_input_idx_${index}_shiftright`} type="button" className="p-1 rounded-md transition-colors text-gray-300 dark:text-slate-600" disabled>
                           <IoCaretForwardOutline  className="w-4 h-4" />
                         </button>
                       }

@@ -40,7 +40,7 @@ const ChatMessageSendLocation = ({
         <FaLocationDot className="text-xl fond-bold text-indigo-600 dark:text-indigo-300" />
       </button>
       <Drawer anchor="bottom" open={open} onClose={() => setOpen(false)}>
-        <div className="px-5 py-5 h-96 relative">
+        <div className="px-5 py-5 h-96 relative bg-white dark:bg-slate-800 secondary-text">
           <div className="w-full h-full flex">
             <div className="w-1/2 flex flex-col">
               <div className="font-bold text-sm">Pin a location here</div>
@@ -66,7 +66,7 @@ const ChatMessageSendLocation = ({
                   placeholder="0.00000"
                   step={0.00001}
                   className={
-                    "input input-bordered input-sm w-full max-w-xs bg-white"
+                    "primary-input"
                   }
                   value={latitude}
                   onChange={(e) => {
@@ -86,7 +86,7 @@ const ChatMessageSendLocation = ({
                   placeholder="0.00000"
                   step={0.00001}
                   className={
-                    "input input-bordered input-sm w-full max-w-xs bg-white"
+                    "primary-input"
                   }
                   value={longitude}
                   onChange={(e) => {
@@ -95,15 +95,6 @@ const ChatMessageSendLocation = ({
                 />
                 <div className="label text-xs">
                   The value must be between -180 to 180
-                </div>
-                <div className="text-sm w-full text-left">
-                  In case you are not familiar with geolocation, please see{" "}
-                  <a
-                    href="https://support.google.com/maps/answer/18539"
-                    target="_blank"
-                  >
-                    this guide
-                  </a>
                 </div>
               </label>
             </div>

@@ -112,7 +112,7 @@ function MenuBar() {
               <Avatar sx={{ width: 52, height: 52 }} src={currentUser.avatar} />
             </button>
             <Drawer open={open} onClose={toggleDrawer(false)} anchor="bottom">
-              <div className="flex flex-col items-center gap-2 p-2 bg-white dark:bg-slate-900">
+              <div className="flex flex-col items-center gap-2 p-2 bg-white dark:bg-slate-800">
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="flex flex-col items-center"
