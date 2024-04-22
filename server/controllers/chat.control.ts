@@ -142,6 +142,7 @@ export const createPublicChat = async (req: Request, res: Response) => {
         participantsId: [user.id],
         chatName: parsedBody.chatName,
         chatAvatar: parsedBody.chatAvatar,
+        participantsUnread: [0]
       },
     });
 
@@ -260,6 +261,9 @@ export const joinChat = async (req: Request, res: Response) => {
       },
       data: {
         participantsId: [...findOldChatRoom.participantsId, user.id],
+        participantsUnread: {
+          push: 0
+        }
       },
     });
 
