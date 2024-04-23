@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  client:
+    image: chat-client
+    build: ./client
+    container_name: client
+    expose:
+      - "5173"
+    ports:
+      - "5173:5173"
+  server:
+    image: chat-server
+    build: ./server
+    container_name: server
+    expose:
+      - "3001"
+    ports:
+      - "3001:3001"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DormMap from "../../../Map/CustomMap";
 import { Box, Modal } from "@mui/material";
 

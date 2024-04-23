@@ -1,4 +1,3 @@
-import React from "react";
 import ChatMessageText from "./ChatMessageText";
 import ChatMessageImages from "./ChatMessageImages";
 import ChatMessageLocation from "./ChatMessageLocation";

@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { FaImage } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
 import { IoIosSend } from "react-icons/io";
 import { socket } from "../../../lib/socket";
 import { useUser } from "../../../lib/contexts/UserContext";
@@ -19,7 +17,7 @@ const ChatMessageSendBox = ({
   chatId: string;
   sendTo: string;
 }) => {
-  const { currentUser, isLoading } = useUser();
+  const { currentUser } = useUser();
 
   const [text, setText] = useState<string>("");
   const [images, setImages] = useState<ImageType[]>([]);

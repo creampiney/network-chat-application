@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ChatTitle from "./ChatTitle";
 import ChatMessageSendBox from "./ChatMessageSendBox";
 import ChatMessagePane from "./ChatMessagePane";
 import { socket } from "../../../lib/socket";
-import { useParams } from "react-router-dom";
 import { useUser } from "../../../lib/contexts/UserContext";
 import { Chat, Message } from "../../../lib/types/Chat";
 

@@ -22,10 +22,6 @@ const ChatMessageSendLocation = ({
 
   const [allowSend, setAllowSend] = useState<boolean>(true);
 
-  const validateMultiple = (toVerify: number, initial: number) => {
-    const num = toVerify / initial; //division is like multiplication with the reciprocal!
-    return (num & (num - 1)) == 0;
-  };
 
   function submit() {
     setAllowSend(false);
