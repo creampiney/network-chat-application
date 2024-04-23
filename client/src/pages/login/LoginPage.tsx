@@ -59,7 +59,7 @@ const LoginPage = () => {
                   <label className="text-base">Username</label>
                   <input 
                       type="text" 
-                      placeholder="Email..." 
+                      placeholder="Username..." 
                       className="primary-input"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}/>

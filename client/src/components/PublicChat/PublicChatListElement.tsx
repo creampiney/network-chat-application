@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PublicChat } from "../../lib/types/Chat";
 import { useUser } from "../../lib/contexts/UserContext";
 import { IoChatbubbleEllipses, IoEnter } from "react-icons/io5";
+import { IoMdAddCircle } from "react-icons/io";
 
 const PublicChatListElement = ({
   chat,
@@ -52,9 +53,9 @@ const PublicChatListElement = ({
               <Tooltip title="Join Group">
                 <button
                   onClick={onJoin}
-                  className="p-2 rounded-full aspect-square hover:bg-slate-200 hover:dark:bg-slate-700 transition-colors items-center justify-center"
+                  className="p-1 rounded-full aspect-square hover:bg-slate-200 hover:dark:bg-slate-700 transition-colors items-center justify-center"
                 >
-                  <IoChatbubbleEllipses className="w-5 h-5" />
+                  <IoMdAddCircle className="w-6 h-6" />
                 </button>
               </Tooltip>
             </div>
