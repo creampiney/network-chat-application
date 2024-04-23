@@ -1,24 +1,20 @@
 import { Avatar, Tooltip } from "@mui/material";
-import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PublicChat } from "../../lib/types/Chat";
 import { useUser } from "../../lib/contexts/UserContext";
-import { IoChatbubbleEllipses, IoEnter } from "react-icons/io5";
 import { IoMdAddCircle } from "react-icons/io";
 
 const PublicChatListElement = ({
   chat,
-  setChatRooms,
   newChat,
 }: {
   chat: PublicChat;
-  setChatRooms: React.Dispatch<React.SetStateAction<PublicChat[]>>;
   newChat: boolean;
 }) => {
   
   const navigate = useNavigate()
 
-  const { currentUser, isLoading } = useUser();
+  const { currentUser } = useUser();
 
   if (!currentUser) {
     return <></>;

@@ -77,11 +77,13 @@ const PublicChatPanel = ({ publicChatId }: { publicChatId: string }) => {
   useEffect(() => {
     console.log(publicChatId)
     socket.on(`public-chat:${publicChatId}:addMessage`, (message) => addMessage(message));
+    socket.on(`public-chat:${publicChatId}:newParticipant`, () => initRoom())
     socket.on("updateData", () => {
       initRoom();
     });
     return function cleanup() {
       socket.off(`public-chat:${publicChatId}:addMessage`);
+      socket.off(`public-chat:${publicChatId}:newParticipant`)
       socket.off("updateData");
     };
   }, [messages, publicChatId]);

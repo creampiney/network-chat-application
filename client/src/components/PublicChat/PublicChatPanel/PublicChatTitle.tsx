@@ -1,6 +1,7 @@
 import { Avatar } from "@mui/material";
 import { PublicChat } from "../../../lib/types/Chat";
 import { useUser } from "../../../lib/contexts/UserContext";
+import PublicChatCurrentParticipants from "./PublicChatCurrentParticipants";
 
 const PublicChatTitle = ({ publicChat }: { publicChat: PublicChat | undefined }) => {
   const { currentUser } = useUser();
@@ -26,9 +27,9 @@ const PublicChatTitle = ({ publicChat }: { publicChat: PublicChat | undefined })
         <div className="font-bold text-sm secondary-text">
           {publicChat.chatName}
         </div>
-        {/* <div className="grow flex justify-end">
-          <ChatToggleNotificationButton chatId={chat.id} />
-        </div> */}
+        <div className="grow flex justify-end">
+          <PublicChatCurrentParticipants chat={publicChat} />
+        </div>
       </div>
     </div>
   );

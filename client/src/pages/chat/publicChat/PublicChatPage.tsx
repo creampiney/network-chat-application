@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../../../lib/contexts/UserContext";
 import LoadingPage from "../../etc/LoadingPage";
 import NotFoundPage from "../../etc/NotFoundPage";
 import ChatSearchBox from "../../../components/Chat/ChatSearchBox";
-import ChatListElement from "../../../components/Chat/ChatListElement";
-import ChatPanel from "../../../components/Chat/ChatPanel/ChatPanel";
-import { Chat, PublicChat } from "../../../lib/types/Chat";
+import { PublicChat } from "../../../lib/types/Chat";
 import { useParams } from "react-router-dom";
 import { socket } from "../../../lib/socket";
 import PublicChatListElement from "../../../components/PublicChat/PublicChatListElement";
@@ -100,7 +98,6 @@ export default function PublicChatPage() {
                   <PublicChatListElement
                     key={chat.id}
                     chat={chat}
-                    setChatRooms={setChatRooms}
                     newChat={!currentUser.publicChatId.includes(chat.id)}
                   />
                 );

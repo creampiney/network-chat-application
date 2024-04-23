@@ -292,6 +292,7 @@ export const joinChat = async (req: Request, res: Response) => {
     }
 
     io.to(id).emit("public-chat:message", "some one join your room ");
+    io.emit(`public-chat:${id}:newParticipant`)
     /*
     io.emit(`users:${parsedBody.participantAId}:chatsUpdate`);
     io.emit(`users:${parsedBody.participantBId}:chatsUpdate`);
